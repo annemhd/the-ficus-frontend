@@ -4,6 +4,7 @@ import {
     onAuthStateChanged,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
+    updateProfile,
     signOut,
 } from 'firebase/auth'
 
@@ -42,7 +43,8 @@ export const loginWithEmail = async (email, password) => {
 export const logout = async () => {
     try {
         await signOut(auth)
-        console.log('User logged out successfully')
+        const currentUser = useCookie('current-user')
+        currentUser.value = null
     } catch (error) {
         console.error('Error logging out:', error.message)
         throw error

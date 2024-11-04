@@ -4,11 +4,13 @@ import {
     collection,
     addDoc,
     setDoc,
+    getDoc,
     getDocs,
     doc,
     updateDoc,
     deleteDoc,
 } from 'firebase/firestore'
+import { getAuth } from 'firebase/auth'
 
 const firebaseConfig = {
     apiKey: 'AIzaSyDUtkJWs9afBX_CZHEwT2H7K69C0XQTEGE',
@@ -21,10 +23,14 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig)
 const db = getFirestore(firebaseApp)
+const auth = getAuth(firebaseApp)
+
+export const currentUser = async () => {
+    return await auth.currentUser
+}
 
 const usersCollection = collection(db, 'users')
 
-// Ajouter un nouvel utilisateur
 export const addUser = async (uid, user) => {
     const sanitizedUser = {
         username: user.username,
@@ -35,14 +41,11 @@ export const addUser = async (uid, user) => {
     try {
         const userDocRef = doc(usersCollection, uid)
         await setDoc(userDocRef, sanitizedUser)
-
-        console.log('Utilisateur ajouté avec ID: ', uid)
     } catch (e) {
         console.error("Erreur lors de l'ajout de l'utilisateur: ", e)
     }
 }
 
-// Lire tous les utilisateurs
 export const getUsers = async () => {
     const querySnapshot = await getDocs(usersCollection)
     querySnapshot.forEach((doc) => {
@@ -50,7 +53,27 @@ export const getUsers = async () => {
     })
 }
 
-// Mettre à jour un utilisateur
+export const getUserById = async (userId) => {
+    if (!userId) {
+        return
+    }
+
+    try {
+        const userDocRef = doc(usersCollection, userId)
+        const userDoc = await getDoc(userDocRef)
+
+        if (userDoc.exists()) {
+            return userDoc.data()
+        } else {
+            console.warn('No user found for the provided ID.')
+            return null
+        }
+    } catch (error) {
+        console.error('Error retrieving the user:', error)
+        throw error // Rethrow the error to allow handling by caller
+    }
+}
+
 export const updateUser = async (userId, updatedData) => {
     const userDoc = doc(db, 'users', userId)
     try {
@@ -61,7 +84,6 @@ export const updateUser = async (userId, updatedData) => {
     }
 }
 
-// Supprimer un utilisateur
 export const deleteUser = async (userId) => {
     const userDoc = doc(db, 'users', userId)
     try {

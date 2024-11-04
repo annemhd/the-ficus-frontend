@@ -1,9 +1,9 @@
 {
-  "_hash": "KZoMEltulK",
+  "_hash": "kjo2WU3Zdb",
   "project": {
-    "rootDir": "/Users/amichaud/Desktop/The Ficus/frontend"
+    "rootDir": "/Users/amichaud/Desktop/The-Ficus/frontend"
   },
   "versions": {
-    "nuxt": "3.13.2"
+    "nuxt": "3.14.0"
   }
 }
