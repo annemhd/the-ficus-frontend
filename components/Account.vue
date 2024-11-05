@@ -1,17 +1,16 @@
 <template>
-    <section v-if="currentUser">
+    <section v-if="currentUser" class="flex items-center gap-4">
         <UPopover>
-            <UButton color="gray" variant="soft" icon="i-tabler-user-filled" />
+            <UButton
+                color="black"
+                variant="solid"
+                icon="i-tabler-user-filled"
+                size="md"
+                class="rounded-2xl p-4"
+                :label="userInfos?.username"
+            />
             <template #panel>
-                <div class="w-48 flex gap-2 p-4">
-                    <UAvatar icon="i-heroicons-photo" size="lg" />
-                    <div>
-                        <p>{{ userInfos.username }}</p>
-                        <p class="text-sm">{{ userInfos.email }}</p>
-                    </div>
-                </div>
-                <UDivider />
-                <div class="flex flex-col gap-1 p-2">
+                <div class="w-48 flex flex-col gap-1 p-2">
                     <UButton to="/profile" color="gray" variant="ghost" icon="i-tabler-user-filled"
                         >Profil</UButton
                     >
@@ -19,12 +18,15 @@
                         to="/dashboard"
                         color="gray"
                         variant="ghost"
-                        icon="i-tabler-settings-filled"
-                        >Tableau de bord</UButton
-                    >
+                        icon="i-tabler-mail-filled"
+                        label="Messages"
+                    />
+                </div>
+                <UDivider />
+                <div class="flex flex-col gap-1 p-2">
                     <UButton
                         color="pink"
-                        variant="soft"
+                        variant="ghost"
                         icon="i-tabler-logout-2"
                         @click="logoutAccount"
                         >Déconnexion</UButton

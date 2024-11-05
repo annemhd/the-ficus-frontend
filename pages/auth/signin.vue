@@ -47,7 +47,7 @@
                     by="nom"
                 >
                     <template #leading>
-                        <UIcon name="i-heroicons-map-pin" class="text-slate-400" />
+                        <UIcon name="i-heroicons-map-pin" class="text-zinc-400" />
                     </template>
                     <template #option-empty="{ query }">
                         pas de resultats pour <q>{{ query }}</q>

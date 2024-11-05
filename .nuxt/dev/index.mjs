@@ -287,14 +287,14 @@ const defineAppConfig = (config) => config;
 
 const appConfig0 = defineAppConfig({
   ui: {
-    primary: "teal",
-    gray: "cool",
+    primary: "lime",
+    gray: "zinc",
     container: {
       constrained: "max-w-5xl"
     },
     button: {
       default: {
-        size: "md"
+        size: "sm"
       }
     },
     input: {

@@ -1,23 +1,36 @@
 <template>
     <section class="flex gap-2">
         <UPopover>
-            <UButton color="gray" variant="soft" icon="i-tabler-sort-descending-2-filled" trailing>
-                Trier par</UButton
-            >
-
+            <UButton
+                class="rounded-xl py-2 px-4"
+                color="black"
+                variant="solid"
+                icon="i-tabler-sort-descending-2-filled"
+                trailing
+                label="Trier par"
+            />
             <template #panel>
-                <div class="p-4">
-                    <URadioGroup v-model="selected" :options="options" />
+                <div class="p-4 flex flex-col gap-3">
+                    <URadio
+                        v-for="option of options"
+                        :key="option.value"
+                        v-model="selectedSort"
+                        v-bind="option"
+                    />
                 </div>
             </template>
         </UPopover>
         <UPopover>
-            <UButton color="gray" variant="soft" icon="i-tabler-tags-filled" trailing disabled>
-                Catégories</UButton
-            >
-
+            <UButton
+                class="rounded-xl py-2 px-4"
+                color="black"
+                variant="solid"
+                icon="i-tabler-tags-filled"
+                trailing
+                label="Catégories"
+            />
             <template #panel>
-                <div class="p-4">
+                <div class="p-4 flex flex-col gap-3">
                     <UCheckbox label="Plantes intérieur" />
                     <UCheckbox label="Plantes extérieur" />
                     <UCheckbox label="Boutures" />
@@ -27,10 +40,14 @@
             </template>
         </UPopover>
         <UPopover>
-            <UButton color="gray" variant="soft" icon="i-tabler-coin-euro-filled" trailing disabled>
-                Prix</UButton
-            >
-
+            <UButton
+                class="rounded-xl py-2 px-4"
+                color="black"
+                variant="solid"
+                icon="i-tabler-coin-euro-filled"
+                label="Prix"
+                trailing
+            />
             <template #panel>
                 <div class="flex gap-2 p-4">
                     <UInput
@@ -76,5 +93,5 @@ const options = [
     },
 ]
 
-const selected = ref('pertinent')
+const selectedSort = ref('pertinent')
 </script>
