@@ -7,24 +7,33 @@
                 ><UIcon name="i-heroicons-photo" class="w-6 h-6 flex justify-center items-center"
             /></ULink>
         </section>
-        <section class="flex items-center pl-6 gap-6 bg-zinc-50 rounded-2xl">
-            <ULink
-                to="/market"
-                class="flex text-sm font-medium text-zinc-700"
-                active-class="text-primary"
-                >Marché
-            </ULink>
-            <ULink
-                to="/about"
-                class="flex text-sm font-medium text-zinc-700"
-                active-class="text-primary"
-            >
-                À propos
-            </ULink>
+        <section class="flex items-center gap-4">
+            <div class="flex items-center p-4 gap-6 bg-zinc-50 rounded-2xl">
+                <ULink
+                    to="/market"
+                    class="flex text-sm font-medium text-zinc-700"
+                    active-class="text-primary"
+                    >Marché
+                </ULink>
+                <ULink
+                    to="/about"
+                    class="flex text-sm font-medium text-zinc-700"
+                    active-class="text-primary"
+                >
+                    À propos
+                </ULink>
+            </div>
             <Account />
         </section>
     </nav>
 </template>
 <script setup lang="ts">
-const route = useRoute()
+import { useUsersStore } from '~/store/users.pinia'
+
+const store = useUsersStore()
+const userInfo = ref()
+
+onMounted(() => {
+    userInfo.value = store.user?.user?.user_metadata
+})
 </script>

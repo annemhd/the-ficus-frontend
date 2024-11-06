@@ -1,9 +1,9 @@
 <template>
     <section class="w-96 flex flex-col justify-center prose">
         <h1>S'inscrire</h1>
-        <p>
+        <p class="text-sm">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit ou
-            <NuxtLink to="/auth/signin" class="text-emerald-500">inscrivez-vous</NuxtLink>
+            <ULink to="/auth/signin" class="text-primary">connectez-vous</ULink>
         </p>
         <UForm
             :schema="schema"
@@ -11,6 +11,13 @@
             class="flex flex-col justify-center gap-4"
             @submit="onSubmit"
         >
+            <UFormGroup name="username">
+                <UInput
+                    v-model="state.username"
+                    placeholder="Nom d'utilisateur"
+                    icon="i-heroicons-user"
+                />
+            </UFormGroup>
             <UFormGroup name="email">
                 <UInput v-model="state.email" placeholder="E-mail" icon="i-heroicons-envelope" />
             </UFormGroup>
@@ -22,43 +29,79 @@
                     icon="i-heroicons-lock-closed"
                 />
             </UFormGroup>
-            <div class="flex justify-between items-center gap-4">
-                <UButton type="submit" class="w-1/2" block> Se connecter </UButton>
-                <UButton type="submit" variant="link" class="w-1/2"> Mot de passe oublié </UButton>
-            </div>
+            <UFormGroup name="confirmPassword">
+                <UInput
+                    v-model="state.confirmPassword"
+                    type="password"
+                    placeholder="Confirmation du mot de passe"
+                    icon="i-heroicons-lock-closed"
+                />
+            </UFormGroup>
+            <UFormGroup name="city">
+                <UInputMenu
+                    v-model="state.city"
+                    :search="search"
+                    placeholder="Ville"
+                    option-attribute="nom"
+                    trailing
+                    by="nom"
+                >
+                    <template #leading>
+                        <UIcon name="i-heroicons-map-pin" class="text-zinc-400" />
+                    </template>
+                    <template #option-empty="{ query }">
+                        pas de resultats pour <q>{{ query }}</q>
+                    </template>
+                </UInputMenu>
+            </UFormGroup>
+            <UButton type="submit" color="black" class="flex justify-center grow-0 w-1/2">
+                S'inscrire
+            </UButton>
         </UForm>
     </section>
 </template>
+
 <script setup lang="ts">
-definePageMeta({
-    middleware: 'auth',
-})
+import { signUp } from '~/services/users.supabase'
+import type { signUpForm } from '~/types/users'
+import { object, string, ref as yupRef } from 'yup'
 
-import { updateProfile } from 'firebase/auth'
-import { loginWithEmail } from '../../services/auth'
-import { object, string } from 'yup'
-
-const currentUser = useCookie('current-user')
 const router = useRouter()
 
-const state = reactive({
-    email: undefined,
-    password: undefined,
+const state = reactive<signUpForm>({
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    city: {},
 })
 
 const schema = object({
     email: string().email("L'email est invalide").required("L'email est requis"),
-    password: string().required('Le mot de passe est requis'),
+    password: string()
+        .min(8, 'Le mot de passe doit contenir au moins 8 caracteres, 1 majuscule et 1 minuscule')
+        .required('Le mot de passe est requis'),
+    confirmPassword: string()
+        .oneOf([yupRef('password')], 'Les mots de passe doivent correspondre')
+        .required('Vous devez confirmer votre mot de passe'),
+    city: object(),
 })
 
 async function onSubmit() {
     try {
+        //taf : retirer any
         await schema.validate(state)
-        const user = await loginWithEmail(state.email, state.password)
-        currentUser.value = JSON.stringify(user)
-        router.push({ name: 'dashboard' })
+        const { error }: any = await signUp(state.username, state.email, state.password, state.city)
+        if (!error) router.push({ path: '/auth/confirmation' })
     } catch (error) {
-        console.error(error)
+        console.log(error)
     }
+}
+
+async function search(query: string) {
+    const cities: any[] = await $fetch(
+        `https://geo.api.gouv.fr/communes?nom=${query}&fields=departement&boost=population&limit=4`
+    )
+    return cities
 }
 </script>

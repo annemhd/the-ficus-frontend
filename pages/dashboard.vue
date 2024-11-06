@@ -1,21 +1,17 @@
 <template>
     <section class="prose">
         <h1>Tableau de bord</h1>
-        <p>Hello {{ userInfos }} !</p>
+        <p>Hello {{ userInfo }} !</p>
     </section>
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-    middleware: 'dashboard',
-})
+import { useUsersStore } from '~/store/users.pinia'
 
-import { getUserById } from '~/services/users'
+const store = useUsersStore()
+const userInfo = ref()
 
-const currentUser: any = useCookie('current-user')
-const userInfos: any = ref()
-
-onMounted(async () => {
-    userInfos.value = await getUserById(currentUser.value?.uid)
+onMounted(() => {
+    userInfo.value = store.user?.user?.user_metadata
 })
 </script>

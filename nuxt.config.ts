@@ -3,7 +3,9 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
   plugins: [
-    { src: '~/plugins/firebase.js', mode: 'client' }
   ],
-  modules: ['@nuxt/ui']
+  modules: ['@nuxt/ui', '@nuxtjs/supabase', '@pinia/nuxt'],
+  supabase: {
+    redirect: false
+  }
 })

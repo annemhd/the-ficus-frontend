@@ -7,7 +7,7 @@ export default defineAppConfig({
         },
       button: {
       default: {
-        size: 'sm',
+        size: 'md',
       }
         },
       input: {

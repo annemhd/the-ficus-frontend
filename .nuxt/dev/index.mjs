@@ -17,7 +17,7 @@ import { klona } from 'file:///Users/amichaud/Desktop/The-Ficus/frontend/node_mo
 import defu, { defuFn } from 'file:///Users/amichaud/Desktop/The-Ficus/frontend/node_modules/defu/dist/defu.mjs';
 import { snakeCase } from 'file:///Users/amichaud/Desktop/The-Ficus/frontend/node_modules/scule/dist/index.mjs';
 import { createStorage, prefixStorage } from 'file:///Users/amichaud/Desktop/The-Ficus/frontend/node_modules/unstorage/dist/index.mjs';
-import fsDriver from 'file:///Users/amichaud/Desktop/The-Ficus/frontend/node_modules/unstorage/drivers/fs.mjs';
+import unstorage_47drivers_47fs from 'file:///Users/amichaud/Desktop/The-Ficus/frontend/node_modules/unstorage/drivers/fs.mjs';
 import { toRouteMatcher, createRouter } from 'file:///Users/amichaud/Desktop/The-Ficus/frontend/node_modules/radix3/dist/index.mjs';
 import { getContext } from 'file:///Users/amichaud/Desktop/The-Ficus/frontend/node_modules/unctx/dist/index.mjs';
 import { AsyncLocalStorage } from 'node:async_hooks';
@@ -294,7 +294,7 @@ const appConfig0 = defineAppConfig({
     },
     button: {
       default: {
-        size: "sm"
+        size: "md"
       }
     },
     input: {
@@ -593,9 +593,31 @@ const _inlineRuntimeConfig = {
       }
     }
   },
-  "public": {},
+  "public": {
+    "supabase": {
+      "url": "https://szgjqamfjabftpxbbxen.supabase.co",
+      "key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN6Z2pxYW1mamFiZnRweGJieGVuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzA4NDMyNjUsImV4cCI6MjA0NjQxOTI2NX0.8eYcF-BotwK0T5pEqree7_CMd29wa_aAL0VNi8vFITU",
+      "redirect": false,
+      "redirectOptions": {
+        "login": "/login",
+        "callback": "/confirm",
+        "exclude": [],
+        "cookieRedirect": false
+      },
+      "cookieName": "sb",
+      "cookieOptions": {
+        "maxAge": 28800,
+        "sameSite": "lax",
+        "secure": true
+      },
+      "clientOptions": {}
+    }
+  },
   "icon": {
     "serverKnownCssClasses": []
+  },
+  "supabase": {
+    "serviceKey": ""
   }
 };
 const envOptions = {
@@ -652,12 +674,18 @@ const serverAssets = [{"baseName":"server","dir":"/Users/amichaud/Desktop/The-Fi
 const assets = createStorage();
 
 for (const asset of serverAssets) {
-  assets.mount(asset.baseName, fsDriver({ base: asset.dir, ignore: (asset?.ignore || []) }));
+  assets.mount(asset.baseName, unstorage_47drivers_47fs({ base: asset.dir, ignore: (asset?.ignore || []) }));
 }
 
 const storage = createStorage({});
 
 storage.mount('/assets', assets);
+
+storage.mount('root', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"/Users/amichaud/Desktop/The-Ficus/frontend","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('src', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"/Users/amichaud/Desktop/The-Ficus/frontend/server","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('build', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"/Users/amichaud/Desktop/The-Ficus/frontend/.nuxt","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('cache', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"/Users/amichaud/Desktop/The-Ficus/frontend/.nuxt/cache","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('data', unstorage_47drivers_47fs({"driver":"fs","base":"/Users/amichaud/Desktop/The-Ficus/frontend/.data/kv","ignore":["**/node_modules/**","**/.git/**"]}));
 
 function useStorage(base = "") {
   return base ? prefixStorage(storage, base) : storage;

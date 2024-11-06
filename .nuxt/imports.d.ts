@@ -28,7 +28,6 @@ export { useRuntimeHook } from '#app/composables/runtime-hook';
 export { onBeforeRouteLeave, onBeforeRouteUpdate, useLink } from 'vue-router';
 export { withCtx, withDirectives, withKeys, withMemo, withModifiers, withScopeId, onActivated, onBeforeMount, onBeforeUnmount, onBeforeUpdate, onDeactivated, onErrorCaptured, onMounted, onRenderTracked, onRenderTriggered, onServerPrefetch, onUnmounted, onUpdated, computed, customRef, isProxy, isReactive, isReadonly, isRef, markRaw, proxyRefs, reactive, readonly, ref, shallowReactive, shallowReadonly, shallowRef, toRaw, toRef, toRefs, triggerRef, unref, watch, watchEffect, watchPostEffect, watchSyncEffect, isShallow, effect, effectScope, getCurrentScope, onScopeDispose, defineComponent, defineAsyncComponent, resolveComponent, getCurrentInstance, h, inject, hasInjectionContext, nextTick, provide, mergeModels, toValue, useModel, useAttrs, useCssModule, useCssVars, useSlots, useTransitionState, useId, useTemplateRef, useShadowRoot, Component, ComponentPublicInstance, ComputedRef, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, MaybeRef, MaybeRefOrGetter, VNode } from 'vue';
 export { injectHead, useHead, useSeoMeta, useHeadSafe, useServerHead, useServerSeoMeta, useServerHeadSafe } from '@unhead/vue';
-export { useUser } from '../composables/useUser';
 export { defineShortcuts } from '../node_modules/@nuxt/ui/dist/runtime/composables/defineShortcuts';
 export { useProvideButtonGroup, useInjectButtonGroup } from '../node_modules/@nuxt/ui/dist/runtime/composables/useButtonGroup';
 export { useCarouselScroll } from '../node_modules/@nuxt/ui/dist/runtime/composables/useCarouselScroll';
@@ -41,6 +40,10 @@ export { slidOverInjectionKey, useSlideover } from '../node_modules/@nuxt/ui/dis
 export { useTimer } from '../node_modules/@nuxt/ui/dist/runtime/composables/useTimer';
 export { useToast } from '../node_modules/@nuxt/ui/dist/runtime/composables/useToast';
 export { useUI } from '../node_modules/@nuxt/ui/dist/runtime/composables/useUI';
+export { useSupabaseClient } from '../node_modules/@nuxtjs/supabase/dist/runtime/composables/useSupabaseClient';
+export { useSupabaseSession } from '../node_modules/@nuxtjs/supabase/dist/runtime/composables/useSupabaseSession';
+export { useSupabaseUser } from '../node_modules/@nuxtjs/supabase/dist/runtime/composables/useSupabaseUser';
 export { useColorMode } from '../node_modules/@nuxtjs/color-mode/dist/runtime/composables';
+export { defineStore, acceptHMRUpdate, usePinia, storeToRefs } from '../node_modules/@pinia/nuxt/dist/runtime/composables';
 export { useNuxtDevTools } from '../node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools';
 export { definePageMeta } from '../node_modules/nuxt/dist/pages/runtime/composables';
