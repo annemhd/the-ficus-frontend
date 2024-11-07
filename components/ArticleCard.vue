@@ -6,7 +6,7 @@
                 <p class="text-sm">{{ props.article.users.username }}</p>
             </div>
 
-            <UIcon name="i-tabler-heart-filled" class="text-zinc-400" />
+            <UIcon name="i-tabler-heart-filled" class="text-gray-400" />
         </div>
         <div class="rounded-2xl overflow-hidden">
             <img :src="props.article.images[0]" class="object-cover h-48 w-96" />

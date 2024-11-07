@@ -1,6 +1,6 @@
 <template>
     <div class="w-screen">
-        <div class="bg-white h-screen p-6 rounded-3xl">
+        <div class="h-screen bg-white p-6 rounded-3xl">
             <Navbar />
             <slot />
         </div>

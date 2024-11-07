@@ -1,6 +1,6 @@
 export default defineAppConfig({
     ui: {
-       primary: 'lime',
+       primary: 'emerald',
     gray: 'zinc',
     container: {
       constrained: 'max-w-5xl'

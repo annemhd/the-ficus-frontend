@@ -3,27 +3,35 @@
         <UButton
             to="/articles/add"
             color="primary"
-            variant="solid"
+            variant="soft"
             icon="i-tabler-plus"
-            size="md"
-            class="rounded-xl p-3"
-        /><UButton
-            to="/account/messages"
-            color="black"
-            variant="solid"
-            icon="i-tabler-mail"
-            size="md"
+            size="xs"
             class="rounded-xl p-3"
         />
-
+        <UButton
+            to="/articles/add"
+            color="primary"
+            variant="soft"
+            icon="i-tabler-heart"
+            size="xs"
+            class="rounded-xl p-3"
+        />
+        <UButton
+            to="/account/messages"
+            color="primary"
+            variant="soft"
+            icon="i-tabler-mail"
+            size="xs"
+            class="rounded-xl p-3"
+        />
         <UPopover>
-            <UButton color="black" variant="ghost" class="rounded-xl p-0"
+            <UButton color="black" variant="ghost" size="xs" class="rounded-xl p-0"
                 ><UAvatar
-                    size="lg"
+                    size="md"
                     :src="userInfo.avatar_src"
-                    :alt="userInfo.username"
+                    :alt="userInfo.username.toUpperCase()"
                     :ui="{ rounded: 'rounded-xl' }"
-                    class="bg-zinc-200"
+                    class="bg-gray-100"
             /></UButton>
             <template #panel>
                 <div class="w-48 flex flex-col gap-1 p-2">
@@ -44,7 +52,7 @@
                 </div>
                 <UDivider />
                 <div class="flex flex-col gap-1 p-2">
-                    <UButton color="pink" variant="ghost" icon="i-tabler-logout-2" @click="logout"
+                    <UButton color="pink" variant="soft" icon="i-tabler-logout-2" @click="logout"
                         >Déconnexion</UButton
                     >
                 </div>

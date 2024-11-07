@@ -3,7 +3,7 @@
         <UForm
             :schema="schema"
             :state="state"
-            class="bg-white flex flex-col justify-center gap-4 p-16 rounded-3xl w-1/2"
+            class="flex flex-col justify-center gap-4 p-4 rounded-3xl w-1/2"
             @submit="onSubmit"
             ><h1 class="text-2xl">Ajouter un article</h1>
             <UFormGroup

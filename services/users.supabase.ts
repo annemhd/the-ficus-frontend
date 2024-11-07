@@ -46,7 +46,7 @@ export const getSession = async() => {
 
 export const signOut = async () => {
     try {
-        const { error } = await supabase.auth.signOut()
+        const { error } = await supabase.auth.signOut({ scope: 'local' })
         
         if(error) throw new Error(`${error}`)
     } catch (error) {
