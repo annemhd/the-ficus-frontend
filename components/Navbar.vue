@@ -10,7 +10,7 @@
                         class="w-6 h-6 flex justify-center items-center"
                 /></ULink>
             </section>
-            <div class="flex items-center p-4 gap-6 bg-zinc-50 rounded-2xl">
+            <div class="flex items-center p-4 gap-6 bg-white rounded-2xl">
                 <ULink
                     to="/market"
                     class="flex text-sm font-medium text-zinc-700"

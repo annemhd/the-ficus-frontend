@@ -4,7 +4,7 @@
             <Filters />
             <p class="text-sm">{{ total }} articles</p>
         </header>
-        <section class="mt-6 grid grid-cols-5 gap-4 content-stretch">
+        <section class="mt-6 grid grid-cols-5 gap-4 content-stretch bg-white p-4 rounded-3xl">
             <div v-for="article in articles" class="flex flex-col gap-2">
                 <ArticleCard :article="article" />
             </div>

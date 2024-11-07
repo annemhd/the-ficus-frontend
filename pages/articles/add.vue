@@ -3,47 +3,92 @@
         <UForm
             :schema="schema"
             :state="state"
-            class="flex w-2/4 flex-col justify-center gap-4"
+            class="bg-white flex flex-col justify-center gap-4 p-16 rounded-3xl"
             @submit="onSubmit"
-        >
-            <UFormGroup name="title">
-                <UInput v-model="state.title" placeholder="Titre" icon="i-heroicons-user" />
+            ><h1 class="text-2xl">Ajouter un article</h1>
+            <UFormGroup
+                name="title"
+                label="Titre"
+                description="Choissisez un titre à votre article"
+            >
+                <UInput v-model="state.title" placeholder="ex : Un jolie ficus" />
             </UFormGroup>
-            <UFormGroup name="description">
+            <UFormGroup
+                name="description"
+                label="Description"
+                description="Mettez votre article en valeur avec le plus de détails possibles"
+            >
                 <UTextarea
                     v-model="state.description"
-                    placeholder="Description..."
-                    icon="i-heroicons-envelope"
+                    placeholder="ex : C'est un ficus de 20cm de hauteur"
                 />
             </UFormGroup>
-            <UInputMenu
-                v-model="state.category"
-                selected-icon="i-tabler-check"
-                class="w-full lg:w-48"
-                placeholder="Selectionner une catégorie"
-                :options="[
-                    'Plantes intérieur',
-                    'Plantes extérieur',
-                    'Boutures',
-                    'Caches pot',
-                    'Vases',
-                    'Outils',
-                    'Autres',
-                ]"
-            />
-            <UFormGroup name="price">
-                <UInput v-model="state.price" placeholder="Prix" icon="i-heroicons-lock-closed" />
+            <div class="flex gap-4">
+                <UFormGroup
+                    name="category"
+                    label="Catégories"
+                    description="Le type de votre article"
+                    class="w-full"
+                >
+                    <UInputMenu
+                        v-model="state.category"
+                        selected-icon="i-tabler-check"
+                        class="w-full"
+                        placeholder="Selectionner une catégorie"
+                        :options="[
+                            'Plantes intérieur',
+                            'Plantes extérieur',
+                            'Boutures',
+                            'Caches pot',
+                            'Vases',
+                            'Outils',
+                            'Autres',
+                        ]"
+                    />
+                </UFormGroup>
+                <UFormGroup
+                    name="price"
+                    label="Prix"
+                    description="Choisissez le prix =<0"
+                    class="w-full"
+                >
+                    <UInput v-model="state.price" placeholder="Prix"
+                        ><template #trailing>
+                            <span class="text-gray-500 dark:text-gray-400 text-xs">EUR</span>
+                        </template></UInput
+                    >
+                </UFormGroup>
+            </div>
+            <UFormGroup
+                name="images"
+                label="Images"
+                description="Choissisez jusqu'à 3 photos"
+                class="w-full"
+            >
+                <div class="mt-2 flex flex-col"><ImgUpload @images="getImagesUrls" /></div>
             </UFormGroup>
-        </UForm>
-        <div class="flex flex-col w-full"><ImgUpload @images="getImagesUrls" /></div>
-        <div class="flex gap-2 items-center">en ligne <UToggle v-model="state.online" /></div>
 
-        <UButton
-            type="submit"
-            color="primary"
-            class="flex justify-center grow-0 w-1/2"
-            label="Ajouter l'article"
-        />
+            <div class="flex justify-between">
+                <UFormGroup
+                    name="online"
+                    label="Status"
+                    description="Pour enregistrer l'article hors ligne"
+                    class="w-full flex flex-col gap-2 text-sm"
+                >
+                    <div class="flex gap-3 items-center">
+                        <UToggle v-model="state.online" />{{ status }}
+                    </div>
+                </UFormGroup>
+                <div class="mt-auto">
+                    <UButton
+                        type="submit"
+                        color="primary"
+                        class="flex justify-center w-48"
+                        label="Ajouter l'article"
+                    />
+                </div>
+            </div>
+        </UForm>
     </section>
 </template>
 
@@ -54,6 +99,7 @@ import { useUsersStore } from '~/store/users.pinia'
 
 const store = useUsersStore()
 const userId = ref()
+const status = computed(() => (state.online ? 'En ligne' : 'Hors ligne'))
 
 const state = reactive({
     user_id: userId.value,

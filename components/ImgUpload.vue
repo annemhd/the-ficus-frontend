@@ -1,13 +1,23 @@
 <template>
     <input ref="file" @change="uploadImage" type="file" class="hidden" />
-    <div class="mt-6 grid grid-cols-3 gap-4 content-stretch mb-4">
+    <div class="grid grid-cols-3 gap-4 content-stretch mb-4">
         <div v-for="source in imgs" class="rounded-2xl overflow-hidden">
             <img :src="source" class="object-cover h-24 w-48" />
         </div>
 
-        <div v-for="img in imgQuota" class="bg-stone-300 h-32 rounded-2xl"></div>
+        <div
+            v-for="img in imgQuota"
+            class="flex justify-center items-center border-2 border-dotted border-lime-500 h-32 rounded-2xl"
+        >
+            <UButton
+                color="primary"
+                variant="soft"
+                icon="i-tabler-plus"
+                class="rounded-full"
+                @click="triggerFileInput"
+            />
+        </div>
     </div>
-    <UButton color="black" @click="triggerFileInput" block>Ajouter une photo</UButton>
 </template>
 <script setup lang="ts">
 import { uploadFile, getUrl } from '~/services/images.supabase'
@@ -17,7 +27,7 @@ const file: any = useTemplateRef('file')
 const src = ref()
 const imgs: any = ref([])
 
-const imgQuota = computed(() => 6 - imgs.value.length)
+const imgQuota = computed(() => 3 - imgs.value.length)
 
 const triggerFileInput = () => {
     file.value.click()
