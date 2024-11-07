@@ -54,7 +54,7 @@ async function onSubmit() {
     try {
         //taf : retirer any
         const { error }: any = await signIn(state.email, state.password)
-        if (!error) router.push({ path: '/dashboard' })
+        if (!error) router.push({ path: '/account/profile' })
     } catch (error) {}
 }
 </script>

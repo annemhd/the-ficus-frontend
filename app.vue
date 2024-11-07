@@ -10,7 +10,7 @@ const layout = computed(() =>
     route.name === 'auth-signup' ||
     route.name === 'auth-confirmation'
         ? 'authentification'
-        : route.name === 'dashboard'
+        : route.name === 'account-profile'
         ? 'default'
         : 'default'
 )

@@ -1,5 +1,21 @@
 <template>
-    <section v-if="userInfo" class="flex items-center gap-4">
+    <section v-if="userInfo" class="flex items-center gap-2">
+        <UButton
+            to="/articles/add"
+            color="primary"
+            variant="solid"
+            icon="i-tabler-plus"
+            size="md"
+            class="rounded-2xl p-4"
+        /><UButton
+            to="/articles/messages"
+            color="black"
+            variant="solid"
+            icon="i-tabler-mail"
+            size="md"
+            class="rounded-2xl p-4"
+        />
+
         <UPopover>
             <UButton
                 color="black"
@@ -11,11 +27,15 @@
             />
             <template #panel>
                 <div class="w-48 flex flex-col gap-1 p-2">
-                    <UButton to="/profile" color="gray" variant="ghost" icon="i-tabler-user-filled"
+                    <UButton
+                        to="/account/profile"
+                        color="gray"
+                        variant="ghost"
+                        icon="i-tabler-user-filled"
                         >Profil</UButton
                     >
                     <UButton
-                        to="/dashboard"
+                        to="/account/messages"
                         color="gray"
                         variant="ghost"
                         icon="i-tabler-mail-filled"

@@ -3,7 +3,9 @@ import type { DefineComponent, SlotsType } from 'vue'
 type IslandComponent<T extends DefineComponent> = T & DefineComponent<{}, {refresh: () => Promise<void>}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, SlotsType<{ fallback: { error: unknown } }>>
 interface _GlobalComponents {
       'Account': typeof import("../components/Account.vue")['default']
+    'ArticleCard': typeof import("../components/ArticleCard.vue")['default']
     'Filters': typeof import("../components/Filters.vue")['default']
+    'ImgUpload': typeof import("../components/ImgUpload.vue")['default']
     'Navbar': typeof import("../components/Navbar.vue")['default']
     'UAccordion': typeof import("../node_modules/@nuxt/ui/dist/runtime/components/elements/Accordion.vue")['default']
     'UAlert': typeof import("../node_modules/@nuxt/ui/dist/runtime/components/elements/Alert.vue")['default']
@@ -82,7 +84,9 @@ interface _GlobalComponents {
     'USlideovers': IslandComponent<typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']>
     'NuxtRouteAnnouncer': IslandComponent<typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']>
       'LazyAccount': typeof import("../components/Account.vue")['default']
+    'LazyArticleCard': typeof import("../components/ArticleCard.vue")['default']
     'LazyFilters': typeof import("../components/Filters.vue")['default']
+    'LazyImgUpload': typeof import("../components/ImgUpload.vue")['default']
     'LazyNavbar': typeof import("../components/Navbar.vue")['default']
     'LazyUAccordion': typeof import("../node_modules/@nuxt/ui/dist/runtime/components/elements/Accordion.vue")['default']
     'LazyUAlert': typeof import("../node_modules/@nuxt/ui/dist/runtime/components/elements/Alert.vue")['default']
@@ -167,7 +171,9 @@ declare module 'vue' {
 }
 
 export const Account: typeof import("../components/Account.vue")['default']
+export const ArticleCard: typeof import("../components/ArticleCard.vue")['default']
 export const Filters: typeof import("../components/Filters.vue")['default']
+export const ImgUpload: typeof import("../components/ImgUpload.vue")['default']
 export const Navbar: typeof import("../components/Navbar.vue")['default']
 export const UAccordion: typeof import("../node_modules/@nuxt/ui/dist/runtime/components/elements/Accordion.vue")['default']
 export const UAlert: typeof import("../node_modules/@nuxt/ui/dist/runtime/components/elements/Alert.vue")['default']
@@ -246,7 +252,9 @@ export const UModals: IslandComponent<typeof import("../node_modules/nuxt/dist/a
 export const USlideovers: IslandComponent<typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']>
 export const NuxtRouteAnnouncer: IslandComponent<typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']>
 export const LazyAccount: typeof import("../components/Account.vue")['default']
+export const LazyArticleCard: typeof import("../components/ArticleCard.vue")['default']
 export const LazyFilters: typeof import("../components/Filters.vue")['default']
+export const LazyImgUpload: typeof import("../components/ImgUpload.vue")['default']
 export const LazyNavbar: typeof import("../components/Navbar.vue")['default']
 export const LazyUAccordion: typeof import("../node_modules/@nuxt/ui/dist/runtime/components/elements/Accordion.vue")['default']
 export const LazyUAlert: typeof import("../node_modules/@nuxt/ui/dist/runtime/components/elements/Alert.vue")['default']

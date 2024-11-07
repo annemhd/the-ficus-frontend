@@ -4,15 +4,10 @@
             <Filters />
             <p class="text-sm">{{ total }} articles</p>
         </header>
-        <section class="mt-6 h-56 grid grid-cols-5 gap-4 content-stretch">
-            <UCard v-for="article in articles">
-                <template #header> </template>
-
-                {{ article }}
-                <template #footer>
-                    <Placeholder class="h-8" />
-                </template>
-            </UCard>
+        <section class="mt-6 grid grid-cols-5 gap-4 content-stretch">
+            <div v-for="article in articles" class="flex flex-col gap-2">
+                <ArticleCard :article="article" />
+            </div>
         </section>
     </main>
 </template>
@@ -28,6 +23,6 @@ onMounted(async () => {
 
 const getArticles = async () => {
     articles.value = await getAllArticles()
-    total.value = articles.value.length
+    total.value = articles.value?.length
 }
 </script>
