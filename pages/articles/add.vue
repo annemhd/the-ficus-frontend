@@ -1,11 +1,9 @@
 <template>
-    <section class="mt-8 w-96 flex flex-col justify-center prose">
-        <h1>Ajouter un article</h1>
-
+    <section class="mt-8 flex flex-col items-center">
         <UForm
             :schema="schema"
             :state="state"
-            class="flex flex-col justify-center gap-4"
+            class="flex w-2/4 flex-col justify-center gap-4"
             @submit="onSubmit"
         >
             <UFormGroup name="title">
@@ -36,18 +34,16 @@
             <UFormGroup name="price">
                 <UInput v-model="state.price" placeholder="Prix" icon="i-heroicons-lock-closed" />
             </UFormGroup>
-
-            <ImgUpload @images="getImagesUrls" />
-
-            <div class="flex gap-2 items-center">en ligne <UToggle v-model="state.online" /></div>
-
-            <UButton
-                type="submit"
-                color="primary"
-                class="flex justify-center grow-0 w-1/2"
-                label="Ajouter l'article"
-            />
         </UForm>
+        <div class="flex flex-col w-full"><ImgUpload @images="getImagesUrls" /></div>
+        <div class="flex gap-2 items-center">en ligne <UToggle v-model="state.online" /></div>
+
+        <UButton
+            type="submit"
+            color="primary"
+            class="flex justify-center grow-0 w-1/2"
+            label="Ajouter l'article"
+        />
     </section>
 </template>
 
