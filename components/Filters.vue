@@ -22,17 +22,18 @@
                 <UIcon name="i-flowbite-chevron-down-outline" class="h-5 w-5 text-gray-400"
             /></UButton>
             <template #panel>
-                <div class="p-4 flex flex-col gap-3">
-                    <UCheckbox label="Plantes intérieur" />
-                    <UCheckbox label="Plantes extérieur" />
-                    <UCheckbox label="Boutures" />
-                    <UCheckbox label="Vases et caches pots" />
-                    <UCheckbox label="Outils" />
+                <div class="p-1 flex flex-col gap-1">
+                    <UCheckbox
+                        v-for="category in categories"
+                        :label="category.label"
+                        class="hover:bg-gray-100 p-1"
+                        @click="handleCategories(category)"
+                    />
                 </div>
             </template>
         </UPopover>
         <USelectMenu
-            v-model="selected"
+            v-model="selectedCities"
             class="mt-0.5 hover:bg-gray-100 px-1 rounded-lg"
             placeholder="Ville"
             searchablePlaceholder="Recherche"
@@ -47,9 +48,13 @@
             multiple
         >
             <template #label>
-                <div v-if="selected.length" class="truncate flex gap-2">
-                    <div class="font-medium">Ville<span v-if="selected.length > 1">s</span></div>
-                    <UBadge color="primary" variant="soft" size="xs">{{ selected.length }}</UBadge>
+                <div v-if="selectedCities.length" class="truncate flex gap-2">
+                    <div class="font-medium">
+                        Ville<span v-if="selectedCities.length > 1">s</span>
+                    </div>
+                    <UBadge color="primary" variant="soft" size="xs">{{
+                        selectedCities.length
+                    }}</UBadge>
                 </div>
                 <div v-else class="text-black font-medium cursor-pointer">Villes</div>
             </template>
@@ -95,7 +100,8 @@
 </template>
 <script setup lang="ts">
 const loading = ref(false)
-const selected = ref([])
+const selectedCities: any = ref([])
+const selectedCategories: any = ref([])
 
 const uiMenu = ref({
     width: 'w-56',
@@ -113,17 +119,7 @@ const uiMenu = ref({
     },
 })
 
-async function search(query: string) {
-    loading.value = true
-
-    const users: any[] = await $fetch(
-        `https://geo.api.gouv.fr/communes?nom=${query}&fields=departement&boost=population&limit=4`
-    )
-
-    loading.value = false
-
-    return users
-}
+const selectedSort = ref('pertinent')
 
 const options = [
     {
@@ -140,5 +136,45 @@ const options = [
     },
 ]
 
-const selectedSort = ref('pertinent')
+const categories = ref([
+    {
+        label: 'Plantes intérieur',
+        value: 'indoor_plants',
+        checked: false,
+    },
+    {
+        label: 'Plantes extérieur',
+        value: 'outdoor_plants',
+        checked: false,
+    },
+    { label: 'Boutures', value: 'cuttings', checked: false },
+    {
+        label: 'Vases et caches pots',
+        value: 'vases_and_pot_covers',
+        checked: false,
+    },
+    { label: 'Outils', value: 'tools', checked: false },
+])
+
+const handleCategories = (category: any) => {
+    const index = selectedCategories.value.indexOf(category)
+
+    if (index > -1) {
+        selectedCategories.value.splice(index, 1)
+    } else {
+        selectedCategories.value.push(category)
+    }
+}
+
+async function search(query: string) {
+    loading.value = true
+
+    const users: any[] = await $fetch(
+        `https://geo.api.gouv.fr/communes?nom=${query}&fields=departement&boost=population&limit=4`
+    )
+
+    loading.value = false
+
+    return users
+}
 </script>

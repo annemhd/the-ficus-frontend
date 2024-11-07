@@ -57,7 +57,5 @@ const deleteImage = async (path: any) => {
         // If the item exists in the array
         imgs.value.splice(index, 1)
     }
-
-    console.log(await deleteFile(path))
 }
 </script>
