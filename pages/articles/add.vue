@@ -3,7 +3,7 @@
         <UForm
             :schema="schema"
             :state="state"
-            class="bg-white flex flex-col justify-center gap-4 p-16 rounded-3xl"
+            class="bg-white flex flex-col justify-center gap-4 p-16 rounded-3xl w-1/2"
             @submit="onSubmit"
             ><h1 class="text-2xl">Ajouter un article</h1>
             <UFormGroup
@@ -65,7 +65,7 @@
                 description="Choissisez jusqu'à 3 photos"
                 class="w-full"
             >
-                <div class="mt-2 flex flex-col"><ImgUpload @images="getImagesUrls" /></div>
+                <ImgUpload @images="getImagesUrls" />
             </UFormGroup>
 
             <div class="flex justify-between">
@@ -95,9 +95,8 @@
 <script setup lang="ts">
 import { addArticle } from '~/services/articles.supabase'
 import { object, string, number } from 'yup'
-import { useUsersStore } from '~/store/users.pinia'
+import { getSession } from '~/services/users.supabase'
 
-const store = useUsersStore()
 const userId = ref()
 const status = computed(() => (state.online ? 'En ligne' : 'Hors ligne'))
 
@@ -122,13 +121,13 @@ const schema = object({
     price: number(),
 })
 
-onMounted(() => {
-    userId.value = store.user?.user?.id
+onMounted(async () => {
+    const session = await getSession()
+    userId.value = session?.user?.id
 })
 
-const getImagesUrls = (v: any) => {
-    state.images = v
-    console.log(v)
+const getImagesUrls = (images: any) => {
+    state.images = images
 }
 
 const router = useRouter()

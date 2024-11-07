@@ -6,25 +6,25 @@
             variant="solid"
             icon="i-tabler-plus"
             size="md"
-            class="rounded-2xl p-4"
+            class="rounded-xl p-3"
         /><UButton
-            to="/articles/messages"
+            to="/account/messages"
             color="black"
             variant="solid"
             icon="i-tabler-mail"
             size="md"
-            class="rounded-2xl p-4"
+            class="rounded-xl p-3"
         />
 
         <UPopover>
-            <UButton
-                color="black"
-                variant="solid"
-                icon="i-tabler-user-filled"
-                size="md"
-                class="rounded-2xl p-4"
-                :label="userInfo?.username"
-            />
+            <UButton color="black" variant="ghost" class="rounded-xl p-0"
+                ><UAvatar
+                    size="lg"
+                    :src="userInfo.avatar_src"
+                    :alt="userInfo.username"
+                    :ui="{ rounded: 'rounded-xl' }"
+                    class="bg-zinc-200"
+            /></UButton>
             <template #panel>
                 <div class="w-48 flex flex-col gap-1 p-2">
                     <UButton
@@ -51,6 +51,7 @@
             </template>
         </UPopover>
     </section>
+
     <section v-else class="flex items-center p-4 gap-4 bg-black rounded-2xl">
         <ULink to="/auth/signin" class="text-white text-sm">Se connecter</ULink>
         <UDivider orientation="vertical" class="h-4" />
@@ -60,19 +61,18 @@
 
 <script setup lang="ts">
 import { signOut } from '~/services/users.supabase'
-import { useUsersStore } from '~/store/users.pinia'
+import { getSession } from '~/services/users.supabase'
 
-const store = useUsersStore()
 const userInfo = ref()
 const router = useRouter()
 
-onMounted(() => {
-    userInfo.value = store.user?.user?.user_metadata
+onMounted(async () => {
+    const session = await getSession()
+    userInfo.value = session?.user?.user_metadata
 })
 
 const logout = async () => {
     try {
-        //taf : retirer any
         await signOut()
         userInfo.value = null
         router.push({ path: '/' })

@@ -1,13 +1,22 @@
 <template>
     <input ref="file" @change="uploadImage" type="file" class="hidden" />
     <div class="grid grid-cols-3 gap-4 content-stretch mb-4">
-        <div v-for="source in imgs" class="rounded-2xl overflow-hidden">
-            <img :src="source" class="object-cover h-24 w-48" />
+        <div v-for="source in imgs" class="rounded-2xl overflow-hidden relative gap-2">
+            <div class="h-32 w-full flex overflow-hidden">
+                <img :src="source" class="object-cover h-32 w-full" />
+            </div>
+            <UButton
+                color="red"
+                icon="i-iconamoon-close-fill"
+                class="absolute top-2 left-2 rounded-full"
+                size="xs"
+                @click="deleteImage(source)"
+            />
         </div>
 
         <div
             v-for="img in imgQuota"
-            class="flex justify-center items-center border-2 border-dotted border-lime-500 h-32 rounded-2xl"
+            class="flex justify-center items-center border-2 border-dotted border-lime-500 h-32 w-full rounded-2xl gap-2"
         >
             <UButton
                 color="primary"
@@ -20,7 +29,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { uploadFile, getUrl } from '~/services/images.supabase'
+import { uploadFile, deleteFile, getUrl } from '~/services/images.supabase'
 
 const emit = defineEmits(['images'])
 const file: any = useTemplateRef('file')
@@ -38,5 +47,17 @@ const uploadImage = async () => {
     src.value = await getUrl(`articles/${upload?.path}`)
     imgs.value.push(src.value.data.publicUrl)
     emit('images', imgs.value)
+}
+
+const deleteImage = async (path: any) => {
+    await deleteFile(path)
+    const index = imgs.value.indexOf(path)
+
+    if (index > -1) {
+        // If the item exists in the array
+        imgs.value.splice(index, 1)
+    }
+
+    console.log(await deleteFile(path))
 }
 </script>

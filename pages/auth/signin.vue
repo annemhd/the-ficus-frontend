@@ -34,11 +34,9 @@
 <script setup lang="ts">
 import type { signInForm } from '~/types/users'
 import { signIn } from '~/services/users.supabase'
-import { useUsersStore } from '~/store/users.pinia'
 import { object, string } from 'yup'
 
 const router = useRouter()
-const store = useUsersStore()
 
 const state = reactive<signInForm>({
     email: '',

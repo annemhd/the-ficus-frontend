@@ -30,12 +30,12 @@
     </nav>
 </template>
 <script setup lang="ts">
-import { useUsersStore } from '~/store/users.pinia'
+import { getSession } from '~/services/users.supabase'
 
-const store = useUsersStore()
 const userInfo = ref()
 
-onMounted(() => {
-    userInfo.value = store.user?.user?.user_metadata
+onMounted(async () => {
+    const session = await getSession()
+    userInfo.value = session?.user?.user_metadata
 })
 </script>
