@@ -8,8 +8,14 @@
 
             <UIcon name="i-tabler-heart-filled" class="text-gray-400" />
         </div>
-        <div class="rounded-2xl overflow-hidden">
+        <div v-if="props.article.images.length > 0" class="rounded-2xl overflow-hidden">
             <img :src="props.article.images[0]" class="object-cover h-48 w-96" />
+        </div>
+        <div
+            v-else
+            class="rounded-2xl overflow-hidden h-48 flex justify-center items-center bg-gray-200"
+        >
+            <UIcon name="i-heroicons-photo" class="text-gray-400 h-24 w-24" />
         </div>
 
         <div class="flex justify-between text-sm px-2">

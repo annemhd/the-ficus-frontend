@@ -35,15 +35,10 @@
                         selected-icon="i-tabler-check"
                         class="w-full"
                         placeholder="Selectionner une catégorie"
-                        :options="[
-                            'Plantes intérieur',
-                            'Plantes extérieur',
-                            'Boutures',
-                            'Caches pot',
-                            'Vases',
-                            'Outils',
-                            'Autres',
-                        ]"
+                        :options="categories"
+                        by="value"
+                        option-attribute="label"
+                        :search-attributes="['label']"
                     />
                 </UFormGroup>
                 <UFormGroup
@@ -94,17 +89,36 @@
 
 <script setup lang="ts">
 import { addArticle } from '~/services/articles.supabase'
-import { object, string, number } from 'yup'
+import { object, string, number, array } from 'yup'
 import { getSession } from '~/services/users.supabase'
 
 const userId = ref()
+
+//taf
+const categories = ref<[{ label: string; value: string }]>([
+    {
+        label: 'Plantes intérieur',
+        value: 'indoor_plants',
+    },
+    {
+        label: 'Plantes extérieur',
+        value: 'outdoor_plants',
+    },
+    { label: 'Boutures', value: 'cuttings', checked: false },
+    {
+        label: 'Vases et caches pots',
+        value: 'vases_and_pot_covers',
+    },
+    { label: 'Outils', value: 'tools', checked: false },
+])
+
 const status = computed(() => (state.online ? 'En ligne' : 'Hors ligne'))
 
 const state = reactive({
     user_id: userId.value,
     title: '',
     description: '',
-    category: '',
+    category: [],
     price: 0,
     images: [],
     online: true,
@@ -117,7 +131,7 @@ const schema = object({
     description: string()
         .min(8, 'La description doit contenir au moins 8 caracteres')
         .required('La description est requise'),
-    category: string().required('La categorie est requise'),
+    category: object().required('La categorie est requise'),
     price: number(),
 })
 
@@ -139,7 +153,7 @@ async function onSubmit() {
             userId.value,
             state.title,
             state.description,
-            state.category,
+            state.category.value,
             state.price,
             state.images,
             state.online

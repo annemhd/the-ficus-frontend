@@ -169,7 +169,7 @@
                 "@studioIcon material-symbols:timer"
               ],
               "id": "#appConfig/icon/fetchTimeout",
-              "default": 500,
+              "default": 1500,
               "type": "number"
             },
             "customize": {
@@ -198,7 +198,7 @@
             "iconifyApiEndpoint": "https://api.iconify.design",
             "fallbackToApi": true,
             "localApiEndpoint": "/api/_nuxt_icon",
-            "fetchTimeout": 500
+            "fetchTimeout": 1500
           }
         }
       },
@@ -219,7 +219,7 @@
           "iconifyApiEndpoint": "https://api.iconify.design",
           "fallbackToApi": true,
           "localApiEndpoint": "/api/_nuxt_icon",
-          "fetchTimeout": 500
+          "fetchTimeout": 1500
         }
       }
     }
@@ -242,7 +242,7 @@
         "iconifyApiEndpoint": "https://api.iconify.design",
         "fallbackToApi": true,
         "localApiEndpoint": "/api/_nuxt_icon",
-        "fetchTimeout": 500
+        "fetchTimeout": 1500
       }
     }
   }

@@ -6,12 +6,12 @@
                 <UIcon name="i-flowbite-chevron-down-outline" class="w-5 h-5 text-gray-400"
             /></UButton>
             <template #panel>
-                <div class="p-4 flex flex-col gap-3">
+                <div class="p-2 flex flex-col gap-3">
                     <URadio
-                        v-for="option of options"
-                        :key="option.value"
+                        v-for="sort of sorting"
+                        :key="sort.value"
                         v-model="selectedSort"
-                        v-bind="option"
+                        v-bind="sort"
                     />
                 </div>
             </template>
@@ -72,17 +72,7 @@
             <template #panel>
                 <div class="flex gap-2 p-4">
                     <UInput
-                        size="sm"
-                        color="white"
-                        :trailing="false"
-                        placeholder="Min"
-                        class="w-24"
-                    >
-                        <template #trailing>
-                            <span class="text-gray-500 dark:text-gray-400 text-xs">EUR</span>
-                        </template>
-                    </UInput>
-                    <UInput
+                        v-model="selectedPrice"
                         size="sm"
                         color="white"
                         :trailing="false"
@@ -99,9 +89,14 @@
     </section>
 </template>
 <script setup lang="ts">
-const loading = ref(false)
+const emit = defineEmits(['sort', 'cities', 'categories', 'price'])
+
+const loading = ref<boolean>(false)
+
+const selectedSort = ref<string>('ascending_date')
 const selectedCities: any = ref([])
 const selectedCategories: any = ref([])
+const selectedPrice = ref<number>()
 
 const uiMenu = ref({
     width: 'w-56',
@@ -118,23 +113,6 @@ const uiMenu = ref({
         },
     },
 })
-
-const selectedSort = ref('pertinent')
-
-const options = [
-    {
-        value: 'pertinent',
-        label: 'Pertinences',
-    },
-    {
-        value: 'ascending',
-        label: 'Plus récentes',
-    },
-    {
-        value: 'descending',
-        label: 'Plus anciennes',
-    },
-]
 
 const categories = ref([
     {
@@ -155,6 +133,17 @@ const categories = ref([
     },
     { label: 'Outils', value: 'tools', checked: false },
 ])
+
+const sorting = [
+    {
+        value: 'ascending_date',
+        label: 'Plus récentes',
+    },
+    {
+        value: 'descending_date',
+        label: 'Plus anciennes',
+    },
+]
 
 const handleCategories = (category: any) => {
     const index = selectedCategories.value.indexOf(category)
@@ -177,4 +166,27 @@ async function search(query: string) {
 
     return users
 }
+
+watch(
+    () => [selectedSort.value, selectedCities.value, selectedCategories.value, selectedPrice.value],
+    ([sort, cities, cat, price]) => {
+        emit('sort', sort)
+
+        if (cities?.length < 0) emit('cities', cities)
+
+        if (selectedCategories.value?.length > 0)
+            emit(
+                'categories',
+                selectedCategories.value.map((item: any) => item.value)
+            )
+        else
+            emit(
+                'categories',
+                cat.map((item: any) => item.value)
+            )
+
+        if (price?.length > 0) emit('price', price)
+    },
+    { deep: true }
+)
 </script>
