@@ -172,7 +172,11 @@ watch(
     ([sort, cities, cat, price]) => {
         emit('sort', sort)
 
-        if (cities?.length < 0) emit('cities', cities)
+        if (cities?.length > 0)
+            emit(
+                'cities',
+                cities.map((item: any) => item.nom)
+            )
 
         if (selectedCategories.value?.length > 0)
             emit(

@@ -1,18 +1,21 @@
 import { supabase } from "./configuration"
 
-export const getAllArticles = async (sort: string, order: boolean, categories: string[], price: number) => {
+export const getAllArticles = async (sort: string, order: boolean, categories: string[],cities: object[] , price: number) => {
     const query = supabase
         .from('articles')
         .select(`
+            username,
+            avatar,
             title,
             category,
             price,
             images,
+            city_name,
+            city_code,
             online,
-            created_at,
-            users!articles_user_id_fkey(username, avatar_src)
+            created_at
         `)
-
+    
     if (sort) {
         query.order(sort, { ascending: order })
     }
@@ -20,6 +23,18 @@ export const getAllArticles = async (sort: string, order: boolean, categories: s
     if (categories.length > 0) {
         query.in('category', categories);
     }
+
+    if (cities && cities.length > 0) {
+        const cityFilters = cities.map(city => {
+            const filters = [];
+            if (city) filters.push(`city_name.eq.${city}`);
+            // if (city.code) filters.push(`users.city->code.eq.${city.code}`);
+            return filters;
+        });
+
+        
+        query.or(cityFilters.join(','));
+    } 
 
     if (price) {
         query.lt('price', price);

@@ -2,8 +2,8 @@
     <div class="flex flex-col gap-2">
         <div class="flex gap-2 justify-between items-center">
             <div class="flex gap-2 items-center">
-                <UAvatar size="sm" :src="props.article.users.avatar_src" alt="Avatar" />
-                <p class="text-sm">{{ props.article.users.username }}</p>
+                <UAvatar size="sm" :src="props.article.avatar" alt="Avatar" />
+                <p class="text-sm">{{ props.article.username }}</p>
             </div>
 
             <UIcon name="i-tabler-heart-filled" class="text-gray-400" />

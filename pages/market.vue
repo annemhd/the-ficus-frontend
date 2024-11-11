@@ -25,7 +25,7 @@ const total = ref()
 const sort = ref(false)
 const sortBy = ref('created_at')
 const categories = ref([])
-const cities = ref()
+const cities = ref([])
 const price = ref(1000)
 
 onMounted(async () => {
@@ -33,7 +33,6 @@ onMounted(async () => {
 })
 
 const handleSort = (s: any) => {
-    console.log(s)
     if (s === 'ascending_date') (sortBy.value = 'created_at'), (sort.value = false)
     else if (s === 'descending_date') (sortBy.value = 'created_at'), (sort.value = true)
     else if (s === 'ascending_price') (sortBy.value = 'price'), (sort.value = false)
@@ -55,7 +54,13 @@ const handlePrice = (p: any) => {
 }
 
 const getArticles = async () => {
-    articles.value = await getAllArticles(sortBy.value, sort.value, categories.value, price.value)
+    articles.value = await getAllArticles(
+        sortBy.value,
+        sort.value,
+        categories.value,
+        cities.value,
+        price.value
+    )
     total.value = articles.value?.length
 }
 
@@ -66,6 +71,7 @@ watch(
             sortBy.value,
             sort.value,
             categories.value,
+            cities.value,
             price.value
         )
     },
