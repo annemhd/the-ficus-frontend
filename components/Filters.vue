@@ -1,5 +1,5 @@
 <template>
-    <section class="flex gap-1">
+    <section class="flex gap-1 justify-center items-center">
         <UPopover>
             <UButton class="rounded-xl hover:bg-gray-100" color="black" variant="ghost">
                 Trier par
@@ -86,6 +86,14 @@
                 </div>
             </template>
         </UPopover>
+        <UButton
+            v-if="resetFilter"
+            icon="i-tabler-trash"
+            color="pink"
+            size="sm"
+            class="flex justify-center items-center"
+            @click="reset"
+        />
     </section>
 </template>
 <script setup lang="ts">
@@ -94,9 +102,10 @@ const emit = defineEmits(['sort', 'cities', 'categories', 'price'])
 const loading = ref<boolean>(false)
 
 const selectedSort = ref<string>('ascending_date')
-const selectedCities: any = ref([])
 const selectedCategories: any = ref([])
-const selectedPrice = ref<number>()
+const selectedCities: any = ref([])
+//taf
+const selectedPrice = ref<number | null>(null)
 
 const uiMenu = ref({
     width: 'w-56',
@@ -134,7 +143,7 @@ const categories = ref([
     { label: 'Outils', value: 'tools', checked: false },
 ])
 
-const sorting = [
+const sorting = ref([
     {
         value: 'ascending_date',
         label: 'Plus récentes',
@@ -143,7 +152,16 @@ const sorting = [
         value: 'descending_date',
         label: 'Plus anciennes',
     },
-]
+])
+
+const resetFilter = computed(
+    () =>
+        (selectedSort.value !== 'ascending_date' ||
+            selectedCategories.value > 0 ||
+            selectedCities.value.length > 0 ||
+            selectedPrice.value) ??
+        0 > 0
+)
 
 const handleCategories = (category: any) => {
     const index = selectedCategories.value.indexOf(category)
@@ -153,6 +171,13 @@ const handleCategories = (category: any) => {
     } else {
         selectedCategories.value.push(category)
     }
+}
+
+const reset = () => {
+    selectedSort.value = 'ascending_date'
+    selectedCities.value = []
+    selectedCategories.value = []
+    selectedPrice.value = null
 }
 
 async function search(query: string) {

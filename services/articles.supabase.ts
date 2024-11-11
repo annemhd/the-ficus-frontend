@@ -28,10 +28,8 @@ export const getAllArticles = async (sort: string, order: boolean, categories: s
         const cityFilters = cities.map(city => {
             const filters = [];
             if (city) filters.push(`city_name.eq.${city}`);
-            // if (city.code) filters.push(`users.city->code.eq.${city.code}`);
             return filters;
         });
-
         
         query.or(cityFilters.join(','));
     } 
