@@ -50,7 +50,7 @@
                         label="Messages"
                     />
                 </div>
-                <USeparator />
+                <UDivider />
                 <div class="flex flex-col gap-1 p-2">
                     <UButton color="pink" variant="soft" icon="i-tabler-logout-2" @click="logout"
                         >Déconnexion</UButton
@@ -62,7 +62,7 @@
 
     <section v-else class="flex items-center p-4 gap-4 bg-black rounded-2xl">
         <ULink to="/auth/signin" class="text-white text-sm">Se connecter</ULink>
-        <USeparator orientation="vertical" class="h-4" />
+        <UDivider orientation="vertical" class="h-4" />
         <ULink to="/auth/signup" class="text-white rounded-r-2xl text-sm">S'inscrire</ULink>
     </section>
 </template>

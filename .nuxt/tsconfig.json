@@ -101,6 +101,9 @@
       "#ui/*": [
         "../node_modules/@nuxt/ui/dist/runtime/*"
       ],
+      "#ui-colors": [
+        "./ui.colors"
+      ],
       "#color-mode-options": [
         "./color-mode-options.mjs"
       ],
@@ -110,8 +113,14 @@
       "#imports": [
         "./imports"
       ],
+      "#tailwind-config": [
+        "./tailwind.config"
+      ],
+      "#tailwind-config/*": [
+        "./tailwind.config/*"
+      ],
       "#app-manifest": [
-        "./manifest/meta/dev"
+        "./manifest/meta/dev.json"
       ],
       "#components": [
         "./components"
@@ -151,10 +160,10 @@
     "../**/*",
     "../node_modules/@nuxt/icon/runtime",
     "../node_modules/@nuxt/icon/dist/runtime",
-    "../node_modules/@nuxt/fonts/runtime",
-    "../node_modules/@nuxt/fonts/dist/runtime",
     "../node_modules/@nuxtjs/color-mode/runtime",
     "../node_modules/@nuxtjs/color-mode/dist/runtime",
+    "../node_modules/@nuxtjs/tailwindcss/runtime",
+    "../node_modules/@nuxtjs/tailwindcss/dist/runtime",
     "../node_modules/@nuxt/ui/runtime",
     "../node_modules/@nuxt/ui/dist/runtime",
     "../node_modules/@nuxtjs/supabase/runtime",
@@ -173,10 +182,10 @@
     "../node_modules/nuxt/node_modules",
     "../node_modules/@nuxt/icon/runtime/server",
     "../node_modules/@nuxt/icon/dist/runtime/server",
-    "../node_modules/@nuxt/fonts/runtime/server",
-    "../node_modules/@nuxt/fonts/dist/runtime/server",
     "../node_modules/@nuxtjs/color-mode/runtime/server",
     "../node_modules/@nuxtjs/color-mode/dist/runtime/server",
+    "../node_modules/@nuxtjs/tailwindcss/runtime/server",
+    "../node_modules/@nuxtjs/tailwindcss/dist/runtime/server",
     "../node_modules/@nuxt/ui/runtime/server",
     "../node_modules/@nuxt/ui/dist/runtime/server",
     "../node_modules/@nuxtjs/supabase/runtime/server",

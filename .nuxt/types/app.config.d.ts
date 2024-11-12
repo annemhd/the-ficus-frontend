@@ -5,33 +5,6 @@ import cfg0 from "../../app.config"
 
 declare const inlineConfig = {
   "nuxt": {},
-  "ui": {
-    "colors": {
-      "primary": "green",
-      "secondary": "blue",
-      "success": "green",
-      "info": "blue",
-      "warning": "yellow",
-      "error": "red",
-      "neutral": "slate"
-    },
-    "icons": {
-      "chevronDoubleLeft": "i-lucide-chevrons-left",
-      "chevronDoubleRight": "i-lucide-chevrons-right",
-      "chevronDown": "i-lucide-chevron-down",
-      "chevronLeft": "i-lucide-chevron-left",
-      "chevronRight": "i-lucide-chevron-right",
-      "arrowLeft": "i-lucide-arrow-left",
-      "arrowRight": "i-lucide-arrow-right",
-      "check": "i-lucide-check",
-      "close": "i-lucide-x",
-      "ellipsis": "i-lucide-ellipsis",
-      "external": "i-lucide-arrow-up-right",
-      "loading": "i-lucide-refresh-ccw",
-      "minus": "i-lucide-minus",
-      "search": "i-lucide-search"
-    }
-  },
   "icon": {
     "provider": "server",
     "class": "",
@@ -41,7 +14,6 @@ declare const inlineConfig = {
     "fallbackToApi": true,
     "cssSelectorPrefix": "i-",
     "cssWherePseudo": true,
-    "cssLayer": "components",
     "mode": "css",
     "attrs": {
       "aria-hidden": true
@@ -226,6 +198,31 @@ declare const inlineConfig = {
       "zondicons"
     ],
     "fetchTimeout": 1500
+  },
+  "ui": {
+    "primary": "green",
+    "gray": "cool",
+    "colors": [
+      "red",
+      "orange",
+      "amber",
+      "yellow",
+      "lime",
+      "green",
+      "emerald",
+      "teal",
+      "cyan",
+      "sky",
+      "blue",
+      "indigo",
+      "violet",
+      "purple",
+      "fuchsia",
+      "pink",
+      "rose",
+      "primary"
+    ],
+    "strategy": "merge"
   }
 }
 type ResolvedAppConfig = Defu<typeof inlineConfig, [typeof cfg0]>

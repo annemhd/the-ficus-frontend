@@ -5,18 +5,19 @@
                 Trier par
                 <UIcon name="i-flowbite-chevron-down-outline" class="w-5 h-5 text-gray-400"
             /></UButton>
-            <template #content>
+            <template #panel>
                 <div class="p-2 flex flex-col gap-3">
-                    <URadioGroup v-model="selectedSort" :items="sorting" />
+                    <URadioGroup v-model="selectedSort" :options="sorting" />
                 </div>
             </template>
         </UPopover>
+
         <UPopover>
             <UButton class="rounded-xl hover:bg-gray-100" color="black" variant="ghost">
                 Catégories
                 <UIcon name="i-flowbite-chevron-down-outline" class="h-5 w-5 text-gray-400"
             /></UButton>
-            <template #content>
+            <template #panel>
                 <div class="p-1 flex flex-col gap-1">
                     <UCheckbox
                         v-for="category in categories"
@@ -29,62 +30,40 @@
         </UPopover>
 
         <USelectMenu
-            :items="cities || []"
-            :loading="status === 'pending'"
-            :filter="['nom', 'code']"
-            icon="i-lucide-user"
-            placeholder="Select user"
-            class="w-80"
-        >
-            <template #leading="{ modelValue, ui }"> </template>
-
-            <template #item-label="{ item }">
-                {{ item.nom }}
-
-                <span class="text-[var(--ui-text-muted)]">
-                    {{ item.code }}
-                </span>
-            </template>
-        </USelectMenu>
-
-        <USelectMenu
             v-model="selectedCities"
-            class="mt-0.5 hover:bg-gray-100 px-1 rounded-lg"
-            placeholder="Ville"
-            searchablePlaceholder="Recherche"
-            option-attribute="nom"
-            by="code"
-            variant="none"
-            selectedIcon="i-tabler-check"
-            trailingIcon="i-flowbite-chevron-down-outline"
-            :ui-menu="uiMenu"
-            :loading="loading"
             :searchable="search"
+            :ui-menu="uiMenu"
+            loadingIcon="i-flowbite-chevron-down-outline"
+            trailingIcon="i-flowbite-chevron-down-outline"
+            option-attribute="name"
+            by="name"
+            variant="none"
+            searchablePlaceholder="Recherche..."
+            clearSearchOnClose
             multiple
+            trailing
         >
             <template #label>
-                <div v-if="selectedCities.length" class="truncate flex gap-2">
-                    <div class="font-medium">
-                        Ville<span v-if="selectedCities.length > 1">s</span>
-                    </div>
-                    <UBadge color="primary" variant="soft" size="xs">{{
-                        selectedCities.length
-                    }}</UBadge>
-                </div>
-                <div v-else class="text-black font-medium cursor-pointer">Villes</div>
+                <span>Villes</span>
+                <UBadge v-if="selectedCities.length > 0" variant="soft" size="xs">{{
+                    selectedCities.length
+                }}</UBadge>
             </template>
             <template #option="{ option: city }">
-                <div class="w-48">
-                    <div>{{ city.nom }}</div>
-                    <div class="text-xs text-gray-400">{{ city.departement.nom }}</div>
-                </div>
+                <span class="">{{ city.name }}</span>
+                <span class="truncate text-gray-400">{{ city.departement }}</span>
+            </template>
+            <template #empty>ex. Montreuil, Toulon, etc.</template>
+            <template #option-empty="{ query }">
+                Pas de résultats pour <q>{{ query }}</q>
             </template>
         </USelectMenu>
+
         <UPopover>
             <UButton class="rounded-xl hover:bg-gray-100" color="black" variant="ghost">
                 Prix <UIcon name="i-flowbite-chevron-down-outline" class="h-5 w-5 text-gray-400"
             /></UButton>
-            <template #content>
+            <template #panel>
                 <div class="flex gap-2 p-4">
                     <UInput
                         v-model="selectedPrice"
@@ -101,6 +80,7 @@
                 </div>
             </template>
         </UPopover>
+
         <UButton
             v-if="resetFilter"
             icon="i-tabler-trash"
@@ -114,27 +94,17 @@
 <script setup lang="ts">
 const emit = defineEmits(['sort', 'cities', 'categories', 'price'])
 
-const loading = ref<boolean>(false)
-
 const selectedSort = ref<string>('ascending_date')
 const selectedCategories: any = ref([])
 const selectedCities: any = ref([])
 //taf
-const selectedPrice = ref<number | null>(null)
+const selectedPrice = ref<number>()
 
 const uiMenu = ref({
-    width: 'w-56',
+    width: 'min-w-60',
     select: 'inline-flex items-center text-left cursor-pointer',
     popper: {
         placement: 'bottom',
-    },
-    default: {
-        empty: {
-            label: 'ex. Montreuil, Nice, etc.',
-        },
-        optionEmpty: {
-            label: 'Pas de resultats pour "{query}"',
-        },
     },
 })
 
@@ -169,8 +139,6 @@ const sorting = ref([
     },
 ])
 
-const cities = ref()
-
 const resetFilter = computed(
     () =>
         (selectedSort.value !== 'ascending_date' ||
@@ -194,30 +162,33 @@ const reset = () => {
     selectedSort.value = 'ascending_date'
     selectedCities.value = []
     selectedCategories.value = []
-    selectedPrice.value = null
+    selectedPrice.value = 0
 }
 
 async function search(query: string) {
-    loading.value = true
-
-    const users: any[] = await $fetch(
-        `https://geo.api.gouv.fr/communes?nom=${query}&fields=departement&boost=population&limit=4`
+    const cities: [] = await $fetch(
+        'https://geo.api.gouv.fr/communes?nom=&fields=departement&boost=population&limit=6',
+        { params: { nom: query } }
     )
 
-    loading.value = false
-
-    return users
+    return cities.map(
+        (city: { label: string; nom: number; departement: { code: string; nom: string } }) => ({
+            name: city.nom,
+            code: city.departement.code,
+            departement: city.departement.nom,
+        })
+    )
 }
 
 watch(
     () => [selectedSort.value, selectedCities.value, selectedCategories.value, selectedPrice.value],
-    ([sort, cities, cat, price]) => {
+    async ([sort, cities, cat, price]) => {
         emit('sort', sort)
 
         if (cities?.length > 0)
             emit(
                 'cities',
-                cities.map((item: any) => item.nom)
+                cities.map((item: any) => item.name)
             )
 
         if (selectedCategories.value?.length > 0)

@@ -26,7 +26,7 @@ const sort = ref(false)
 const sortBy = ref('created_at')
 const categories = ref([])
 const cities = ref([])
-const price = ref(1000)
+const price = ref<number | null>(0)
 
 onMounted(async () => {
     await getArticles()
@@ -40,17 +40,16 @@ const handleSort = (s: any) => {
     else (sortBy.value = 'created_at'), (sort.value = true)
 }
 
-const handleCategories = (c: any) => {
-    categories.value = c
+const handleCategories = (items: []) => {
+    categories.value = items
 }
 
-const handleCities = (c: any) => {
-    console.log(c)
-    cities.value = c
+const handleCities = (items: []) => {
+    cities.value = items
 }
 
-const handlePrice = (p: any) => {
-    price.value = p
+const handlePrice = (item: number) => {
+    price.value = item === 0 ? null : item
 }
 
 const getArticles = async () => {

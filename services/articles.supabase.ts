@@ -1,6 +1,6 @@
 import { supabase } from "./configuration"
 
-export const getAllArticles = async (sort: string, order: boolean, categories: string[],cities: object[] , price: number) => {
+export const getAllArticles = async (sort: string, order: boolean, categories: string[],cities: object[] , price: number | null) => {
     const query = supabase
         .from('articles')
         .select(`
@@ -26,6 +26,7 @@ export const getAllArticles = async (sort: string, order: boolean, categories: s
 
     if (cities && cities.length > 0) {
         const cityFilters = cities.map(city => {
+            console.log(cities)
             const filters = [];
             if (city) filters.push(`city_name.eq.${city}`);
             return filters;
@@ -50,7 +51,7 @@ export const getAllArticles = async (sort: string, order: boolean, categories: s
     }
 }
 
-export const getArticlesByUser = async (userId: string, sort: string, order: boolean, categories: string[],cities: object[] , price: number) => {
+export const getArticlesByUser = async (userId: string, sort: string, order: boolean, categories: string[],cities: object[] , price: number | null) => {
     const query = supabase
         .from('articles')
         .select(`
