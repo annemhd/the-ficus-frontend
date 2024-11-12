@@ -6,14 +6,14 @@
             class="flex flex-col justify-center gap-4 p-4 rounded-3xl w-1/2"
             @submit="onSubmit"
             ><h1 class="text-2xl">Ajouter un article</h1>
-            <UFormGroup
+            <UFormField
                 name="title"
                 label="Titre"
                 description="Choissisez un titre à votre article"
             >
-                <UInput v-model="state.title" placeholder="ex : Un jolie ficus" />
-            </UFormGroup>
-            <UFormGroup
+                <UInput v-model="state.title" placeholder="ex : Un jolie ficus" class="w-full" />
+            </UFormField>
+            <UFormField
                 name="description"
                 label="Description"
                 description="Mettez votre article en valeur avec le plus de détails possibles"
@@ -21,10 +21,12 @@
                 <UTextarea
                     v-model="state.description"
                     placeholder="ex : C'est un ficus de 20cm de hauteur"
+                    class="w-full"
+                    :autoresize="false"
                 />
-            </UFormGroup>
+            </UFormField>
             <div class="flex gap-4">
-                <UFormGroup
+                <UFormField
                     name="category"
                     label="Catégories"
                     description="Le type de votre article"
@@ -40,40 +42,40 @@
                         option-attribute="label"
                         :search-attributes="['label']"
                     />
-                </UFormGroup>
-                <UFormGroup
+                </UFormField>
+                <UFormField
                     name="price"
                     label="Prix"
                     description="Choisissez le prix =<0"
                     class="w-full"
                 >
-                    <UInput v-model="state.price" placeholder="Prix"
+                    <UInput v-model="state.price" placeholder="Prix" class="w-full"
                         ><template #trailing>
                             <span class="text-gray-500 dark:text-gray-400 text-xs">EUR</span>
                         </template></UInput
                     >
-                </UFormGroup>
+                </UFormField>
             </div>
-            <UFormGroup
+            <UFormField
                 name="images"
                 label="Images"
                 description="Choissisez jusqu'à 3 photos"
                 class="w-full"
             >
                 <ImgUpload @images="getImagesUrls" />
-            </UFormGroup>
+            </UFormField>
 
             <div class="flex justify-between">
-                <UFormGroup
+                <UFormField
                     name="online"
                     label="Status"
                     description="Pour enregistrer l'article hors ligne"
                     class="w-full flex flex-col gap-2 text-sm"
                 >
                     <div class="flex gap-3 items-center">
-                        <UToggle v-model="state.online" />{{ status }}
+                        <USwitch v-model="state.online" :label="status" />
                     </div>
-                </UFormGroup>
+                </UFormField>
                 <div class="mt-auto">
                     <UButton
                         type="submit"
@@ -89,7 +91,7 @@
 
 <script setup lang="ts">
 import { addArticle } from '~/services/articles.supabase'
-import { object, string, number, array } from 'yup'
+import { object, string, number } from 'yup'
 import { getSession } from '~/services/users.supabase'
 
 const userId = ref()

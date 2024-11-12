@@ -16,7 +16,7 @@
 
         <div
             v-for="img in imgQuota"
-            class="flex justify-center items-center border-2 border-dotted border-primary h-36 w-full rounded-2xl gap-2"
+            class="flex justify-center items-center border-2 border-dotted border-neutral-300 h-36 w-full rounded-2xl gap-2"
         >
             <UButton
                 color="primary"

@@ -24,7 +24,7 @@
         </div>
         <div class="w-full flex flex-col items-end justify-between gap-6">
             <div>
-                <UButton class="flex-none">Modifier mes informations</UButton>
+                <UButton color="primary" class="flex-none" label="Modifier mes informations" />
             </div>
             <div class="flex gap-6">
                 <div>

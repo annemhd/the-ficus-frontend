@@ -187,7 +187,7 @@ const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initi
 
 const appRootTag = "div";
 
-const appRootAttrs = {"id":"__nuxt"};
+const appRootAttrs = {"id":"__nuxt","class":"isolate"};
 
 const appTeleportTag = "div";
 
@@ -287,8 +287,10 @@ const defineAppConfig = (config) => config;
 
 const appConfig0 = defineAppConfig({
   ui: {
-    primary: "emerald",
-    gray: "zinc",
+    colors: {
+      primary: "lime",
+      neutral: "zinc"
+    },
     container: {
       constrained: "max-w-5xl"
     },
@@ -307,6 +309,33 @@ const appConfig0 = defineAppConfig({
 
 const inlineAppConfig = {
   "nuxt": {},
+  "ui": {
+    "colors": {
+      "primary": "green",
+      "secondary": "blue",
+      "success": "green",
+      "info": "blue",
+      "warning": "yellow",
+      "error": "red",
+      "neutral": "slate"
+    },
+    "icons": {
+      "chevronDoubleLeft": "i-lucide-chevrons-left",
+      "chevronDoubleRight": "i-lucide-chevrons-right",
+      "chevronDown": "i-lucide-chevron-down",
+      "chevronLeft": "i-lucide-chevron-left",
+      "chevronRight": "i-lucide-chevron-right",
+      "arrowLeft": "i-lucide-arrow-left",
+      "arrowRight": "i-lucide-arrow-right",
+      "check": "i-lucide-check",
+      "close": "i-lucide-x",
+      "ellipsis": "i-lucide-ellipsis",
+      "external": "i-lucide-arrow-up-right",
+      "loading": "i-lucide-refresh-ccw",
+      "minus": "i-lucide-minus",
+      "search": "i-lucide-search"
+    }
+  },
   "icon": {
     "provider": "server",
     "class": "",
@@ -316,6 +345,7 @@ const inlineAppConfig = {
     "fallbackToApi": true,
     "cssSelectorPrefix": "i-",
     "cssWherePseudo": true,
+    "cssLayer": "components",
     "mode": "css",
     "attrs": {
       "aria-hidden": true
@@ -500,31 +530,6 @@ const inlineAppConfig = {
       "zondicons"
     ],
     "fetchTimeout": 1500
-  },
-  "ui": {
-    "primary": "green",
-    "gray": "cool",
-    "colors": [
-      "red",
-      "orange",
-      "amber",
-      "yellow",
-      "lime",
-      "green",
-      "emerald",
-      "teal",
-      "cyan",
-      "sky",
-      "blue",
-      "indigo",
-      "violet",
-      "purple",
-      "fuchsia",
-      "pink",
-      "rose",
-      "primary"
-    ],
-    "strategy": "merge"
   }
 };
 
@@ -580,6 +585,17 @@ const _inlineRuntimeConfig = {
     "routeRules": {
       "/__nuxt_error": {
         "cache": false
+      },
+      "/__nuxt_ui__/**": {
+        "ssr": false
+      },
+      "/_fonts/**": {
+        "headers": {
+          "cache-control": "public, max-age=31536000, immutable"
+        },
+        "cache": {
+          "maxAge": 31536000
+        }
       },
       "/_nuxt/builds/meta/**": {
         "headers": {
@@ -1243,6 +1259,7 @@ const _lazy_DK20uD = () => Promise.resolve().then(function () { return renderer$
 const handlers = [
   { route: '/__nuxt_error', handler: _lazy_DK20uD, lazy: true, middleware: false, method: undefined },
   { route: '/api/_nuxt_icon/:collection', handler: _Fg1YZb, lazy: false, middleware: false, method: undefined },
+  { route: '/_fonts/**', handler: _lazy_DK20uD, lazy: true, middleware: false, method: undefined },
   { route: '/**', handler: _lazy_DK20uD, lazy: true, middleware: false, method: undefined }
 ];
 

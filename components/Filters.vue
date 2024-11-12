@@ -5,14 +5,9 @@
                 Trier par
                 <UIcon name="i-flowbite-chevron-down-outline" class="w-5 h-5 text-gray-400"
             /></UButton>
-            <template #panel>
+            <template #content>
                 <div class="p-2 flex flex-col gap-3">
-                    <URadio
-                        v-for="sort of sorting"
-                        :key="sort.value"
-                        v-model="selectedSort"
-                        v-bind="sort"
-                    />
+                    <URadioGroup v-model="selectedSort" :items="sorting" />
                 </div>
             </template>
         </UPopover>
@@ -21,7 +16,7 @@
                 Catégories
                 <UIcon name="i-flowbite-chevron-down-outline" class="h-5 w-5 text-gray-400"
             /></UButton>
-            <template #panel>
+            <template #content>
                 <div class="p-1 flex flex-col gap-1">
                     <UCheckbox
                         v-for="category in categories"
@@ -32,6 +27,26 @@
                 </div>
             </template>
         </UPopover>
+
+        <USelectMenu
+            :items="cities || []"
+            :loading="status === 'pending'"
+            :filter="['nom', 'code']"
+            icon="i-lucide-user"
+            placeholder="Select user"
+            class="w-80"
+        >
+            <template #leading="{ modelValue, ui }"> </template>
+
+            <template #item-label="{ item }">
+                {{ item.nom }}
+
+                <span class="text-[var(--ui-text-muted)]">
+                    {{ item.code }}
+                </span>
+            </template>
+        </USelectMenu>
+
         <USelectMenu
             v-model="selectedCities"
             class="mt-0.5 hover:bg-gray-100 px-1 rounded-lg"
@@ -69,7 +84,7 @@
             <UButton class="rounded-xl hover:bg-gray-100" color="black" variant="ghost">
                 Prix <UIcon name="i-flowbite-chevron-down-outline" class="h-5 w-5 text-gray-400"
             /></UButton>
-            <template #panel>
+            <template #content>
                 <div class="flex gap-2 p-4">
                     <UInput
                         v-model="selectedPrice"
@@ -153,6 +168,8 @@ const sorting = ref([
         label: 'Plus anciennes',
     },
 ])
+
+const cities = ref()
 
 const resetFilter = computed(
     () =>

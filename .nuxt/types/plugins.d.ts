@@ -21,8 +21,8 @@ type NuxtAppInjections =
   InjectionType<typeof import("../../node_modules/nuxt/dist/pages/runtime/plugins/check-if-page-unused.js")> &
   InjectionType<typeof import("../../node_modules/@nuxt/devtools/dist/runtime/plugins/devtools.server.js")> &
   InjectionType<typeof import("../../node_modules/@nuxt/devtools/dist/runtime/plugins/devtools.client.js")> &
-  InjectionType<typeof import("../../node_modules/@nuxt/ui/dist/runtime/plugins/slideovers.js")> &
-  InjectionType<typeof import("../../node_modules/@nuxt/ui/dist/runtime/plugins/modals.js")> &
+  InjectionType<typeof import("../../node_modules/@nuxt/ui/dist/runtime/plugins/slideover.js")> &
+  InjectionType<typeof import("../../node_modules/@nuxt/ui/dist/runtime/plugins/modal.js")> &
   InjectionType<typeof import("../../node_modules/@nuxt/ui/dist/runtime/plugins/colors.js")> &
   InjectionType<typeof import("../../node_modules/@nuxtjs/color-mode/dist/runtime/plugin.server.js")> &
   InjectionType<typeof import("../../node_modules/@nuxtjs/color-mode/dist/runtime/plugin.client.js")> &

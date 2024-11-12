@@ -5,6 +5,7 @@ export default defineNuxtConfig({
   plugins: [
   ],
   modules: ['@nuxt/ui', '@nuxtjs/supabase', '@pinia/nuxt'],
+  css: ['~/assets/css/main.css'],
   supabase: {
     redirect: false
   }
