@@ -1,6 +1,6 @@
 <template>
-    <section class="w-96 flex flex-col justify-center prose">
-        <h1>S'inscrire</h1>
+    <section class="w-96 flex flex-col justify-center gap-4">
+        <h1 class="text-3xl">S'inscrire</h1>
         <p class="text-sm">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit ou
             <ULink to="/auth/signin" class="text-primary">connectez-vous</ULink>
@@ -54,7 +54,7 @@
                     </template>
                 </UInputMenu>
             </UFormGroup>
-            <UButton type="submit" color="black" class="flex justify-center grow-0 w-1/2">
+            <UButton type="submit" color="primary" class="flex justify-center grow-0 w-1/2">
                 S'inscrire
             </UButton>
         </UForm>

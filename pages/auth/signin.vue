@@ -1,6 +1,6 @@
 <template>
-    <section class="w-96 flex flex-col justify-center prose">
-        <h1>S'inscrire</h1>
+    <section class="w-96 flex flex-col justify-center gap-4">
+        <h1 class="text-3xl">S'inscrire</h1>
         <p class="text-sm">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit ou
             <ULink to="/auth/signup" class="text-primary">inscrivez-vous</ULink>
@@ -23,7 +23,7 @@
                 />
             </UFormGroup>
             <div class="flex justify-between items-center gap-4">
-                <UButton type="submit" color="black" class="w-1/2" block> Se connecter </UButton>
+                <UButton type="submit" color="primary" class="w-1/2" block> Se connecter </UButton>
                 <!-- <UButton type="submit" color="black" variant="link" class="w-1/2">
                     Mot de passe oublié
                 </UButton> -->

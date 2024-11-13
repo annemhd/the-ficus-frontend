@@ -1,7 +1,7 @@
 <template>
     <UButton
         to="/"
-        color="black"
+        color="primary"
         class="absolute m-4"
         icon="i-heroicons-arrow-small-left-20-solid"
     />

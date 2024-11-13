@@ -52,7 +52,7 @@
                 </div>
                 <UDivider />
                 <div class="flex flex-col gap-1 p-2">
-                    <UButton color="pink" variant="soft" icon="i-tabler-logout-2" @click="logout"
+                    <UButton color="red" variant="ghost" icon="i-tabler-logout-2" @click="logout"
                         >Déconnexion</UButton
                     >
                 </div>
@@ -60,10 +60,18 @@
         </UPopover>
     </section>
 
-    <section v-else class="flex items-center p-4 gap-4 bg-black rounded-2xl">
-        <ULink to="/auth/signin" class="text-white text-sm">Se connecter</ULink>
-        <UDivider orientation="vertical" class="h-4" />
-        <ULink to="/auth/signup" class="text-white rounded-r-2xl text-sm">S'inscrire</ULink>
+    <section v-else class="flex items-center gap-2 rounded-2xl">
+        <ULink
+            to="/auth/signin"
+            class="text-sm hover:text-primary hover:bg-primary-100 dark:hover:bg-primary-900 p-3 rounded-xl"
+            >Se connecter</ULink
+        >
+        <UDivider orientation="vertical" size="xs" class="h-4" />
+        <ULink
+            to="/auth/signup"
+            class="rounded-r-2xl text-sm hover:bg-primary-100 dark:hover:bg-primary-900 hover:text-primary p-3 rounded-xl"
+            >S'inscrire</ULink
+        >
     </section>
 </template>
 

@@ -1,7 +1,11 @@
 <template>
     <section class="flex gap-1 justify-center items-center">
         <UPopover>
-            <UButton class="rounded-xl hover:bg-gray-100" color="black" variant="ghost">
+            <UButton
+                class="rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800"
+                color="black"
+                variant="ghost"
+            >
                 Trier par
                 <UIcon name="i-flowbite-chevron-down-outline" class="w-5 h-5 text-gray-400"
             /></UButton>
@@ -13,7 +17,11 @@
         </UPopover>
 
         <UPopover>
-            <UButton class="rounded-xl hover:bg-gray-100" color="black" variant="ghost">
+            <UButton
+                class="rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800"
+                color="black"
+                variant="ghost"
+            >
                 Catégories
                 <UBadge v-if="selectedCategories.length > 0" variant="soft" size="xs">{{
                     selectedCategories.length
@@ -25,7 +33,7 @@
                     <UCheckbox
                         v-for="category in categories"
                         :label="category.label"
-                        class="hover:bg-gray-100 p-1"
+                        class="hover:bg-gray-100 dark:hover:bg-gray-800 p-1 rounded-sm"
                         @click="handleCategories(category)"
                     />
                 </div>
@@ -36,6 +44,7 @@
             v-model="selectedCities"
             :searchable="search"
             :ui-menu="uiMenu"
+            class="hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl"
             loadingIcon="i-flowbite-chevron-down-outline"
             trailingIcon="i-flowbite-chevron-down-outline"
             option-attribute="name"
@@ -63,7 +72,11 @@
         </USelectMenu>
 
         <UPopover>
-            <UButton class="rounded-xl hover:bg-gray-100" color="black" variant="ghost">
+            <UButton
+                class="rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800"
+                color="black"
+                variant="ghost"
+            >
                 Prix<UIcon
                     v-if="selectedPrice"
                     name="i-tabler-circle-filled"

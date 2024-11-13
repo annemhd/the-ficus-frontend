@@ -1,7 +1,7 @@
 <template>
     <section class="flex gap-6 mt-6">
         <div
-            class="flex flex-none justify-center items-center rounded-2xl overflow-hidden h-48 w-48 bg-gray-200"
+            class="flex flex-none justify-center items-center rounded-2xl overflow-hidden h-48 w-48 bg-gray-200 dark:bg-gray-800"
         >
             <UIcon name="i-heroicons-photo" class="text-gray-400 h-14 w-14" />
         </div>
@@ -54,7 +54,7 @@
         />
         <p class="text-sm">{{ totalfilter }} articles</p>
     </header>
-    <section class="mt-6 grid grid-cols-5 gap-4 content-stretch bg-white p-4 rounded-3xl">
+    <section class="mt-6 grid grid-cols-5 gap-4 content-stretch p-4 rounded-3xl">
         <div v-for="article in articles" class="flex flex-col gap-2">
             <ArticleCard :article="article" />
         </div>
