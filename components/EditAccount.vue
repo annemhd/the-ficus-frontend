@@ -1,22 +1,38 @@
 <template>
-    <section class="mt-8 flex flex-col justify-center items-center">
-        <h1 class="text-2xl mb-8">Modifier mes informations</h1>
-        <UTabs :items="items" orientation="horizontal" :ui="{}">
-            <template #item="{ item }">
-                <div class="w-full flex justify-center">
-                    <EditProfile v-if="item.key === 'profile'" />
-                </div>
+    <UForm
+        :schema="schema"
+        :state="state"
+        class="flex flex-col justify-center gap-4 p-4 rounded-3xl w-1/2"
+        @submit="onSubmit"
+    >
+        <UFormGroup name="Email" label="Email">
+            <UInput v-model="state.title" placeholder="Email" class="w-full" />
+        </UFormGroup>
+        <UFormGroup name="Mot de passe" label="Mot de passe">
+            <UInput v-model="state.title" placeholder="Mot de passe" class="w-full" />
+        </UFormGroup>
+        <UFormGroup name="Confirmation du mot de passe" label="Confirmation du mot de passe">
+            <UInput
+                v-model="state.title"
+                placeholder="Confirmation du mot de passe"
+                class="w-full"
+            />
+        </UFormGroup>
 
-                <EditAccount v-if="item.key === 'account'" />
-            </template>
-        </UTabs>
-    </section>
+        <div class="flex justify-between">
+            <div class="mt-auto">
+                <UButton
+                    type="submit"
+                    color="primary"
+                    class="flex justify-center w-48"
+                    label="Enregistrer"
+                />
+            </div>
+        </div>
+    </UForm>
 </template>
-
 <script setup lang="ts">
 import { object, string, number } from 'yup'
-import EditAccount from '~/components/EditAccount.vue'
-import EditProfile from '~/components/EditProfile.vue'
 import { getSession } from '~/services/users.supabase'
 
 const userId = ref()
@@ -24,7 +40,7 @@ const selectedCities: any = ref<string[]>([])
 
 const items = [
     {
-        key: 'profile',
+        key: 'profil',
         label: 'Informations du profil',
         icon: 'i-heroicons-information-circle',
     },

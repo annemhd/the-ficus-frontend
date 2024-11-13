@@ -1,67 +1,98 @@
 <template>
-    <div>
-        <UButton label="Modifier mon profil" @click="isOpen = true" />
+    <UForm
+        :schema="schema"
+        :state="state"
+        class="flex flex-col justify-center items-center gap-4 p-4 rounded-3xl"
+        @submit="onSubmit"
+        ><ImgUpload for="users" />
+        <div class="flex flex-col gap-1 justify-center items-center">
+            <span class="text-sm">Avatar</span>
+            <span class="text-sm">Choissisez une photo de profile</span>
+        </div>
 
-        <UModal v-model="isOpen" prevent-close>
-            <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-                <template #header>
-                    <div class="flex items-center justify-between">
-                        <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
-                            Modifier mon profil
-                        </h3>
-                        <UButton
-                            color="gray"
-                            variant="ghost"
-                            icon="i-heroicons-x-mark-20-solid"
-                            class="-my-1"
-                            @click="isOpen = false"
-                        />
-                    </div>
+        <UFormGroup name="username" label="Nom d'utilisateur" class="w-full">
+            <UInput v-model="state.title" placeholder="Nom d'utilisateur" />
+        </UFormGroup>
+        <UFormGroup name="city" label="Ville" class="w-full">
+            <USelectMenu
+                v-model="selectedCities"
+                :searchable="search"
+                :ui-menu="uiMenu"
+                placeholder="ex. Montreuil, Toulon, etc."
+                loadingIcon="i-flowbite-chevron-down-outline"
+                trailingIcon="i-flowbite-chevron-down-outline"
+                option-attribute="name"
+                by="name"
+                searchablePlaceholder="Recherche..."
+                clearSearchOnClose
+                multiple
+                trailing
+            >
+                <template #option="{ option: city }">
+                    <span class="">{{ city.name }}</span>
+                    <span class="truncate text-gray-400">{{ city.departement }}</span>
                 </template>
-                <UForm
-                    :schema="schema"
-                    :state="state"
-                    class="flex flex-col justify-center gap-4 p-4 rounded-3xl w-1/2"
-                    @submit="onSubmit"
-                    ><h1 class="text-2xl">Ajouter un article</h1>
-                    <UFormField
-                        name="title"
-                        label="Titre"
-                        description="Choissisez un titre à votre article"
-                    >
-                        <UInput
-                            v-model="state.title"
-                            placeholder="ex : Un jolie ficus"
-                            class="w-full"
-                        />
-                    </UFormField>
-                    <UFormField
-                        name="description"
-                        label="Description"
-                        description="Mettez votre article en valeur avec le plus de détails possibles"
-                    >
-                        <UTextarea
-                            v-model="state.description"
-                            placeholder="ex : C'est un ficus de 20cm de hauteur"
-                            class="w-full"
-                            :autoresize="false"
-                        /> </UFormField
-                ></UForm>
-                <template #footer>
-                    <UButton label="Annuler" color="gray" variant="ghost" @click="isOpen = false" />
-                    <UButton label="Enregistrer" @click="isOpen = true" />
+                <template #empty>ex. Montreuil, Toulon, etc.</template>
+                <template #option-empty="{ query }">
+                    Pas de résultats pour <q>{{ query }}</q>
                 </template>
-            </UCard>
-        </UModal>
-    </div>
+            </USelectMenu>
+        </UFormGroup>
+
+        <UFormGroup
+            name="description"
+            label="Description"
+            description="Mettez votre article en valeur avec le plus de détails possibles"
+            class="w-full"
+        >
+            <UTextarea
+                v-model="state.description"
+                placeholder="ex : C'est un ficus de 20cm de hauteur"
+                class="w-full"
+                :autoresize="false"
+            />
+        </UFormGroup>
+
+        <div class="flex justify-between">
+            <div class="mt-auto">
+                <UButton
+                    type="submit"
+                    color="primary"
+                    class="flex justify-center w-48"
+                    label="Enregistrer"
+                />
+            </div>
+        </div>
+    </UForm>
 </template>
 
 <script setup lang="ts">
 import { object, string, number } from 'yup'
+import { getSession } from '~/services/users.supabase'
 
-const isOpen = ref(false)
+const userId = ref()
+const selectedCities: any = ref<string[]>([])
 
-const props = defineProps()
+const items = [
+    {
+        key: 'profil',
+        label: 'Informations du profil',
+        icon: 'i-heroicons-information-circle',
+    },
+    {
+        key: 'account',
+        label: 'Paramètres du compte',
+        icon: 'i-heroicons-arrow-down-tray',
+    },
+]
+
+const uiMenu = ref({
+    width: 'min-w-60',
+    select: 'inline-flex items-center text-left cursor-pointer',
+    popper: {
+        placement: 'bottom',
+    },
+})
 
 const state = reactive({
     user_id: userId.value,
@@ -83,4 +114,36 @@ const schema = object({
     category: object().required('La categorie est requise'),
     price: number(),
 })
+
+onMounted(async () => {
+    const session = await getSession()
+    userId.value = session?.user?.id
+})
+
+const router = useRouter()
+
+async function search(query: string) {
+    const cities: any = await $fetch(
+        'https://geo.api.gouv.fr/communes?nom=&fields=departement&boost=population&limit=6',
+        { params: { nom: query } }
+    )
+
+    return cities.map(
+        (city: { label: string; nom: number; departement: { code: string; nom: string } }) => ({
+            name: city.nom,
+            code: city.departement.code,
+            departement: city.departement.nom,
+        })
+    )
+}
+
+async function onSubmit() {
+    try {
+        await schema.validate(state)
+        ///
+        router.push({ path: '/account/profile' })
+    } catch (error) {
+        console.log(error)
+    }
+}
 </script>

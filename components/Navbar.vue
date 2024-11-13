@@ -10,22 +10,29 @@
                         class="w-6 h-6 flex justify-center items-center"
                 /></ULink>
             </section>
-            <div class="flex items-center p-4 gap-1 bg-white rounded-2xl">
+            <div class="flex items-center gap-">
                 <ULink
                     to="/market"
-                    class="font-medium hover:bg-primary-50 text-gray-400 hover:text-primary-500 rounded-lg cursor-pointer"
-                    active-class="text-sm px-4 py-2 text-gray-900"
+                    class="font-medium hover:bg-primary-50 text-current hover:text-primary-500 rounded-lg cursor-pointer"
+                    active-class="text-sm px-4 py-2 text-current-900"
                     inactive-class="text-sm px-4 py-2 "
                     >Marché
                 </ULink>
                 <ULink
                     to="/about"
-                    class="font-medium hover:bg-primary-50 text-gray-400 hover:text-primary-500 rounded-lg cursor-pointer"
+                    class="font-medium hover:bg-primary-50 text-current hover:text-primary-500 rounded-lg cursor-pointer"
                     active-class="text-sm px-4 py-2 text-gray-900"
                     inactive-class="text-sm px-4 py-2 "
                 >
                     À propos
                 </ULink>
+                <UButton
+                    :icon="isDark ? 'i-heroicons-moon-20-solid' : 'i-heroicons-sun-20-solid'"
+                    color="gray"
+                    variant="ghost"
+                    aria-label="Theme"
+                    @click="isDark = !isDark"
+                />
             </div>
         </section>
         <Account />
@@ -39,5 +46,15 @@ const userInfo = ref()
 onMounted(async () => {
     const session = await getSession()
     userInfo.value = session?.user?.user_metadata
+})
+
+const colorMode = useColorMode()
+const isDark = computed({
+    get() {
+        return colorMode.value === 'dark'
+    },
+    set() {
+        colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
+    },
 })
 </script>
