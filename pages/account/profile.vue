@@ -7,24 +7,27 @@
         </div>
         <div class="flex flex-col gap-3 w-3/4">
             <h1 class="text-3xl font-bold tracking-wide">
-                {{ userInfo?.user.user_metadata.username }}
+                {{ userData?.[0]?.username }}
             </h1>
             <div class="flex flex-col">
-                <h2 class="">{{ userInfo?.user.user_metadata.city.nom }}</h2>
+                <h2 class="">{{ userData?.[0]?.city?.name }}</h2>
                 <h3 class="text-sm text-gray-500">
-                    {{ userInfo?.user.user_metadata.city.departement.nom }}
+                    {{ userData?.[0]?.city?.departement }}
                 </h3>
             </div>
 
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer rutrum ante
-                pulvinar enim suscipit vestibulum. Suspendisse tincidunt imperdiet justo, eu cursus
-                odio finibus quis.
+                {{ userData?.[0]?.description }}
             </p>
         </div>
         <div class="w-full flex flex-col items-end justify-between gap-6">
             <div>
-                <UButton color="primary" class="flex-none" label="Modifier mes informations" />
+                <UButton
+                    to="/account/edit"
+                    color="primary"
+                    class="flex-none"
+                    label="Modifier mes informations"
+                />
             </div>
             <div class="flex gap-6">
                 <div>
@@ -59,10 +62,11 @@
 </template>
 
 <script setup lang="ts">
-import { getSession } from '~/services/users.supabase'
+import { getSession, getUserData } from '~/services/users.supabase'
 import { getArticlesByUser } from '~/services/articles.supabase'
 
-const userInfo = ref()
+const userSession = ref()
+const userData = ref()
 const userId = ref()
 const articles = ref()
 
@@ -76,8 +80,9 @@ const cities = ref([])
 const price = ref(1000)
 
 onMounted(async () => {
-    userInfo.value = await getSession()
-    userId.value = userInfo.value?.user.id
+    userSession.value = await getSession()
+    userId.value = userSession.value?.user.id
+    userData.value = await getUserData(userId.value)
     await getArticles()
 })
 

@@ -6,14 +6,14 @@
             class="flex flex-col justify-center gap-4 p-4 rounded-3xl w-1/2"
             @submit="onSubmit"
             ><h1 class="text-2xl">Ajouter un article</h1>
-            <UFormField
+            <UFormGroup
                 name="title"
                 label="Titre"
                 description="Choissisez un titre à votre article"
             >
                 <UInput v-model="state.title" placeholder="ex : Un jolie ficus" class="w-full" />
-            </UFormField>
-            <UFormField
+            </UFormGroup>
+            <UFormGroup
                 name="description"
                 label="Description"
                 description="Mettez votre article en valeur avec le plus de détails possibles"
@@ -24,9 +24,9 @@
                     class="w-full"
                     :autoresize="false"
                 />
-            </UFormField>
+            </UFormGroup>
             <div class="flex gap-4">
-                <UFormField
+                <UFormGroup
                     name="category"
                     label="Catégories"
                     description="Le type de votre article"
@@ -42,8 +42,8 @@
                         option-attribute="label"
                         :search-attributes="['label']"
                     />
-                </UFormField>
-                <UFormField
+                </UFormGroup>
+                <UFormGroup
                     name="price"
                     label="Prix"
                     description="Choisissez le prix =<0"
@@ -54,28 +54,28 @@
                             <span class="text-gray-500 dark:text-gray-400 text-xs">EUR</span>
                         </template></UInput
                     >
-                </UFormField>
+                </UFormGroup>
             </div>
-            <UFormField
+            <UFormGroup
                 name="images"
                 label="Images"
                 description="Choissisez jusqu'à 3 photos"
                 class="w-full"
             >
-                <ImgUpload @images="getImagesUrls" />
-            </UFormField>
+                <ImgUpload for="articles" @images="getImagesUrls" />
+            </UFormGroup>
 
             <div class="flex justify-between">
-                <UFormField
+                <UFormGroup
                     name="online"
                     label="Status"
                     description="Pour enregistrer l'article hors ligne"
                     class="w-full flex flex-col gap-2 text-sm"
                 >
                     <div class="flex gap-3 items-center">
-                        <USwitch v-model="state.online" :label="status" />
+                        <UToggle v-model="state.online" /> {{ status }}
                     </div>
-                </UFormField>
+                </UFormGroup>
                 <div class="mt-auto">
                     <UButton
                         type="submit"
@@ -97,21 +97,21 @@ import { getSession } from '~/services/users.supabase'
 const userId = ref()
 
 //taf
-const categories = ref<[{ label: string; value: string }]>([
+const categories = ref<{ label: string; val: string }[]>([
     {
         label: 'Plantes intérieur',
-        value: 'indoor_plants',
+        val: 'indoor_plants',
     },
     {
         label: 'Plantes extérieur',
-        value: 'outdoor_plants',
+        val: 'outdoor_plants',
     },
-    { label: 'Boutures', value: 'cuttings', checked: false },
+    { label: 'Boutures', val: 'cuttings' },
     {
         label: 'Vases et caches pots',
-        value: 'vases_and_pot_covers',
+        val: 'vases_and_pot_covers',
     },
-    { label: 'Outils', value: 'tools', checked: false },
+    { label: 'Outils', val: 'tools' },
 ])
 
 const status = computed(() => (state.online ? 'En ligne' : 'Hors ligne'))
@@ -120,7 +120,7 @@ const state = reactive({
     user_id: userId.value,
     title: '',
     description: '',
-    category: [],
+    category: { label: '', val: '' },
     price: 0,
     images: [],
     online: true,
@@ -155,7 +155,7 @@ async function onSubmit() {
             userId.value,
             state.title,
             state.description,
-            state.category.value,
+            state.category.val,
             state.price,
             state.images,
             state.online

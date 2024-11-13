@@ -2,6 +2,7 @@
     <NuxtLayout :name="layout">
         <NuxtPage />
     </NuxtLayout>
+    <UModals />
 </template>
 <script setup lang="ts">
 const route = useRoute()

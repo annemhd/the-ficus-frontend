@@ -53,3 +53,26 @@ export const signOut = async () => {
         console.error(error)
     }
 }
+
+export const getUserData = async (userId: string) => {
+    const query = supabase
+        .from('users')
+        .select(`
+            id,
+            username,
+            avatar,
+            description,
+            city
+        `).eq('id', userId)
+    
+    try {
+        const { data, error } = await query;
+
+        if (error) throw new Error(`Error fetching articles: ${error.message}`);
+        
+        return data;
+    } catch (error) {
+        console.error("Error in getAllArticles:", error);
+        return null;
+    }
+}

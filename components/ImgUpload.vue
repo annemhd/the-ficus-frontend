@@ -32,19 +32,27 @@
 import { uploadFile, deleteFile, getUrl } from '~/services/images.supabase'
 
 const emit = defineEmits(['images'])
+const props = defineProps(['for'])
 const file: any = useTemplateRef('file')
 const src = ref()
 const imgs: any = ref([])
 
-const imgQuota = computed(() => 3 - imgs.value.length)
+const imgQuota = computed(() => (props.for === 'users' ? 1 : 3 - imgs.value.length))
 
 const triggerFileInput = () => {
     file.value.click()
 }
 
 const uploadImage = async () => {
-    const upload = await uploadFile(file.value.files[0])
-    src.value = await getUrl(`articles/${upload?.path}`)
+    var upload
+    if (props.for === 'users') {
+        upload = await uploadFile(file.value.files[0])
+        src.value = await getUrl(`users/${upload?.path}`)
+    } else if (props.for === 'articles') {
+        upload = await uploadFile(file.value.files[0])
+        src.value = await getUrl(`articles/${upload?.path}`)
+    }
+
     imgs.value.push(src.value.data.publicUrl)
     emit('images', imgs.value)
 }

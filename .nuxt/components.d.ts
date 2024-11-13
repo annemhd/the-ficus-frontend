@@ -4,6 +4,7 @@ type IslandComponent<T extends DefineComponent> = T & DefineComponent<{}, {refre
 interface _GlobalComponents {
       'Account': typeof import("../components/Account.vue")['default']
     'ArticleCard': typeof import("../components/ArticleCard.vue")['default']
+    'EditProfile': typeof import("../components/EditProfile.vue")['default']
     'Filters': typeof import("../components/Filters.vue")['default']
     'ImgUpload': typeof import("../components/ImgUpload.vue")['default']
     'Navbar': typeof import("../components/Navbar.vue")['default']
@@ -85,6 +86,7 @@ interface _GlobalComponents {
     'NuxtRouteAnnouncer': IslandComponent<typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']>
       'LazyAccount': typeof import("../components/Account.vue")['default']
     'LazyArticleCard': typeof import("../components/ArticleCard.vue")['default']
+    'LazyEditProfile': typeof import("../components/EditProfile.vue")['default']
     'LazyFilters': typeof import("../components/Filters.vue")['default']
     'LazyImgUpload': typeof import("../components/ImgUpload.vue")['default']
     'LazyNavbar': typeof import("../components/Navbar.vue")['default']
@@ -172,6 +174,7 @@ declare module 'vue' {
 
 export const Account: typeof import("../components/Account.vue")['default']
 export const ArticleCard: typeof import("../components/ArticleCard.vue")['default']
+export const EditProfile: typeof import("../components/EditProfile.vue")['default']
 export const Filters: typeof import("../components/Filters.vue")['default']
 export const ImgUpload: typeof import("../components/ImgUpload.vue")['default']
 export const Navbar: typeof import("../components/Navbar.vue")['default']
@@ -253,6 +256,7 @@ export const USlideovers: IslandComponent<typeof import("../node_modules/nuxt/di
 export const NuxtRouteAnnouncer: IslandComponent<typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']>
 export const LazyAccount: typeof import("../components/Account.vue")['default']
 export const LazyArticleCard: typeof import("../components/ArticleCard.vue")['default']
+export const LazyEditProfile: typeof import("../components/EditProfile.vue")['default']
 export const LazyFilters: typeof import("../components/Filters.vue")['default']
 export const LazyImgUpload: typeof import("../components/ImgUpload.vue")['default']
 export const LazyNavbar: typeof import("../components/Navbar.vue")['default']

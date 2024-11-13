@@ -28,7 +28,7 @@
             <UButton color="black" variant="ghost" size="xs" class="rounded-xl p-0"
                 ><UAvatar
                     size="md"
-                    :src="userInfo.avatar_src"
+                    :src="userInfo.avatar"
                     :alt="userInfo.username.toUpperCase()"
                     :ui="{ rounded: 'rounded-xl' }"
                     class="bg-gray-100"
