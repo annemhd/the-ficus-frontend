@@ -15,6 +15,9 @@
         <UPopover>
             <UButton class="rounded-xl hover:bg-gray-100" color="black" variant="ghost">
                 Catégories
+                <UBadge v-if="selectedCategories.length > 0" variant="soft" size="xs">{{
+                    selectedCategories.length
+                }}</UBadge>
                 <UIcon name="i-flowbite-chevron-down-outline" class="h-5 w-5 text-gray-400"
             /></UButton>
             <template #panel>
@@ -44,7 +47,7 @@
             trailing
         >
             <template #label>
-                <span>Villes</span>
+                <span class="font-medium">Villes</span>
                 <UBadge v-if="selectedCities.length > 0" variant="soft" size="xs">{{
                     selectedCities.length
                 }}</UBadge>
@@ -61,8 +64,13 @@
 
         <UPopover>
             <UButton class="rounded-xl hover:bg-gray-100" color="black" variant="ghost">
-                Prix <UIcon name="i-flowbite-chevron-down-outline" class="h-5 w-5 text-gray-400"
+                Prix<UIcon
+                    v-if="selectedPrice"
+                    name="i-tabler-circle-filled"
+                    class="h-2 w-2 text-primary" />
+                <UIcon name="i-flowbite-chevron-down-outline" class="h-5 w-5 text-gray-400"
             /></UButton>
+
             <template #panel>
                 <div class="flex gap-2 p-4">
                     <UInput
@@ -80,23 +88,24 @@
                 </div>
             </template>
         </UPopover>
-
-        <UButton
-            v-if="resetFilter"
-            icon="i-tabler-trash"
-            color="pink"
-            size="sm"
-            class="flex justify-center items-center"
-            @click="reset"
-        />
+        <UTooltip v-if="resetFilter" text="Effacer les filtres">
+            <UButton
+                icon="i-tabler-trash"
+                color="primary"
+                variant="soft"
+                size="xs"
+                class="flex justify-center items-center rounded-xl"
+                @click="reset"
+            />
+        </UTooltip>
     </section>
 </template>
 <script setup lang="ts">
 const emit = defineEmits(['sort', 'cities', 'categories', 'price'])
 
 const selectedSort = ref<string>('ascending_date')
-const selectedCategories: any = ref([])
-const selectedCities: any = ref([])
+const selectedCategories = ref<string[]>([])
+const selectedCities: any = ref<string[]>([])
 //taf
 const selectedPrice = ref<number>()
 
@@ -142,7 +151,7 @@ const sorting = ref([
 const resetFilter = computed(
     () =>
         (selectedSort.value !== 'ascending_date' ||
-            selectedCategories.value > 0 ||
+            selectedCategories.value.length > 0 ||
             selectedCities.value.length > 0 ||
             selectedPrice.value) ??
         0 > 0
@@ -166,7 +175,7 @@ const reset = () => {
 }
 
 async function search(query: string) {
-    const cities: [] = await $fetch(
+    const cities: any = await $fetch(
         'https://geo.api.gouv.fr/communes?nom=&fields=departement&boost=population&limit=6',
         { params: { nom: query } }
     )
@@ -182,7 +191,7 @@ async function search(query: string) {
 
 watch(
     () => [selectedSort.value, selectedCities.value, selectedCategories.value, selectedPrice.value],
-    async ([sort, cities, cat, price]) => {
+    async ([sort, cities, cat, price]: any) => {
         emit('sort', sort)
 
         if (cities?.length > 0)

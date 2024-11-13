@@ -10,7 +10,6 @@ export const uploadFile = async (file: any) => {
       Authorization: `Bearer ${session.access_token}`
     }
   });
-  // console.log(data)
   return data
 }
 

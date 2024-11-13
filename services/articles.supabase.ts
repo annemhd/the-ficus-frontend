@@ -26,7 +26,6 @@ export const getAllArticles = async (sort: string, order: boolean, categories: s
 
     if (cities && cities.length > 0) {
         const cityFilters = cities.map(city => {
-            console.log(cities)
             const filters = [];
             if (city) filters.push(`city_name.eq.${city}`);
             return filters;
