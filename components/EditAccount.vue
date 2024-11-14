@@ -11,7 +11,7 @@
             description="Un mail de confirmation vous sera envoyer vers le nouvel email"
             class="w-full"
         >
-            <UInput v-model="state.email" placeholder="Email" />
+            <UInput v-model="state.email" placeholder="Email" color="gray" :disabled="true" />
         </UFormGroup>
         <div class="flex w-full gap-4">
             <UFormGroup name="Mot de passe" label="Mot de passe" class="w-full">
@@ -43,7 +43,7 @@
 </template>
 <script setup lang="ts">
 import { object, string, ref as yupRef } from 'yup'
-import { getSession } from '~/services/users.supabase'
+import { getSession, updateUserPassword } from '~/services/users.supabase'
 
 const props = defineProps(['userData'])
 
@@ -80,9 +80,11 @@ watch(
 )
 
 async function onSubmit() {
+    console.log(state)
     try {
         await schema.validate(state)
-        ///
+        // await updateUserEmail(state.email)
+        if (state.password) await updateUserPassword(state.password)
         // router.push({ path: '/account/profile' })
     } catch (error) {
         console.log(error)

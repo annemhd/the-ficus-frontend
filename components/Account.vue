@@ -34,7 +34,7 @@
                     class="bg-gray-100"
             /></UButton>
             <template #panel>
-                <div class="w-48 flex flex-col gap-1 p-2">
+                <div class="w-60 flex flex-col gap-1 p-2">
                     <UButton
                         to="/account/profile"
                         color="gray"
@@ -43,6 +43,16 @@
                         size="sm"
                         @click="open = false"
                         >Profil</UButton
+                    >
+
+                    <UButton
+                        to="/account/edit"
+                        color="gray"
+                        variant="ghost"
+                        icon="i-tabler-settings-filled"
+                        size="sm"
+                        @click="open = false"
+                        >Informations du compte</UButton
                     >
                     <UButton
                         to="/account/messages"
@@ -53,15 +63,6 @@
                         size="sm"
                         @click="open = false"
                     />
-                    <UButton
-                        to="/account/edit"
-                        color="gray"
-                        variant="ghost"
-                        icon="i-tabler-user-filled"
-                        size="sm"
-                        @click="open = false"
-                        >Informations du compte</UButton
-                    >
                 </div>
                 <UDivider />
                 <div class="flex flex-col gap-1 p-2">

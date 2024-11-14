@@ -80,9 +80,25 @@ export const getUserData = async (userId: string) => {
 
 export const updateUser = async (id: string, username: string, city: {}, description: string) => {
     const { data, error } = await supabase
-  .from('users')
-  .update({ username: username, city: city, description: description  })
-  .eq('id', id)
+        .from('users')
+        .update({ username: username, city: city, description: description  })
+        .eq('id', id)
+
+    return data
+}
+
+export const updateUserEmail = async (email: string) => {
+     await supabase.auth.updateUser({
+        email: email
+    }, {
+  redirectTo: 'http://localhost:3000',
+})
+}
+
+export const updateUserPassword = async (password: string) => {
+    const { data, error } = await supabase.auth.updateUser({
+        password: password
+    })
 
     return data
 }
