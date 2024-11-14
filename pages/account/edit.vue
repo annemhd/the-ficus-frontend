@@ -1,98 +1,33 @@
 <template>
-    <section class="mt-8 flex flex-col justify-center items-center">
-        <h1 class="text-2xl mb-8">Modifier mes informations</h1>
-        <UTabs :items="items" orientation="horizontal" :ui="{}">
-            <template #item="{ item }">
-                <div class="w-full flex justify-center">
-                    <EditProfile v-if="item.key === 'profile'" />
-                </div>
+    <section class="mt-8 flex flex-col items-center">
+        <div class="flex flex-col justify-center gap-6 w-1/2">
+            <h1 class="text-3xl">Modifier mes informations</h1>
+            <div class="flex flex-col gap-3">
+                <h2 class="text-lg">Infomations du profil</h2>
+                <EditProfile :userData="userData" />
+            </div>
 
-                <EditAccount v-if="item.key === 'account'" />
-            </template>
-        </UTabs>
+            <UDivider class="my-6" />
+            <div class="flex flex-col gap-3 mb-16">
+                <h2 class="text-lg">Paramètres du compte</h2>
+                <EditAccount :userData="userData" />
+            </div>
+        </div>
     </section>
 </template>
 
 <script setup lang="ts">
-import { object, string, number } from 'yup'
 import EditAccount from '~/components/EditAccount.vue'
 import EditProfile from '~/components/EditProfile.vue'
-import { getSession } from '~/services/users.supabase'
+import { getSession, getUserData } from '~/services/users.supabase'
 
+const userSession = ref()
+const userData = ref()
 const userId = ref()
-const selectedCities: any = ref<string[]>([])
-
-const items = [
-    {
-        key: 'profile',
-        label: 'Informations du profil',
-        icon: 'i-heroicons-information-circle',
-    },
-    {
-        key: 'account',
-        label: 'Paramètres du compte',
-        icon: 'i-heroicons-arrow-down-tray',
-    },
-]
-
-const uiMenu = ref({
-    width: 'min-w-60',
-    select: 'inline-flex items-center text-left cursor-pointer',
-    popper: {
-        placement: 'bottom',
-    },
-})
-
-const state = reactive({
-    user_id: userId.value,
-    title: '',
-    description: '',
-    category: [],
-    price: 0,
-    images: [],
-    online: true,
-})
-
-const schema = object({
-    title: string()
-        .min(8, 'Le titre doit contenir 6 caracteres minimum')
-        .required('Le titre est requis'),
-    description: string()
-        .min(8, 'La description doit contenir au moins 8 caracteres')
-        .required('La description est requise'),
-    category: object().required('La categorie est requise'),
-    price: number(),
-})
 
 onMounted(async () => {
-    const session = await getSession()
-    userId.value = session?.user?.id
+    userSession.value = await getSession()
+    userId.value = userSession.value?.user.id
+    userData.value = await getUserData(userId.value)
 })
-
-const router = useRouter()
-
-async function search(query: string) {
-    const cities: any = await $fetch(
-        'https://geo.api.gouv.fr/communes?nom=&fields=departement&boost=population&limit=6',
-        { params: { nom: query } }
-    )
-
-    return cities.map(
-        (city: { label: string; nom: number; departement: { code: string; nom: string } }) => ({
-            name: city.nom,
-            code: city.departement.code,
-            departement: city.departement.nom,
-        })
-    )
-}
-
-async function onSubmit() {
-    try {
-        await schema.validate(state)
-        ///
-        router.push({ path: '/account/profile' })
-    } catch (error) {
-        console.log(error)
-    }
-}
 </script>

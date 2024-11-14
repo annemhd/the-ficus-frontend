@@ -2,64 +2,72 @@
     <UForm
         :schema="schema"
         :state="state"
-        class="flex flex-col justify-center items-center gap-4 p-4 rounded-3xl"
+        class="flex flex-col justify-center gap-4 rounded-3xl w-full"
         @submit="onSubmit"
-        ><ImgUpload for="users" />
-        <div class="flex flex-col gap-1 justify-center items-center">
-            <span class="text-sm">Avatar</span>
-            <span class="text-sm">Choissisez une photo de profile</span>
+    >
+        <div class="flex flex-col w-full">
+            <div class="flex w-full gap-6">
+                <div class="flex flex-col">
+                    <ImgUpload for="users" />
+                </div>
+
+                <div class="w-full flex flex-col gap-4">
+                    <div class="flex gap-4">
+                        <UFormGroup name="username" label="Nom d'utilisateur" class="w-full">
+                            <UInput v-model="state.username" placeholder="Nom d'utilisateur" />
+                        </UFormGroup>
+                        <UFormGroup name="city" label="Ville" size="md" class="w-full">
+                            <USelectMenu
+                                v-model="selectedCities[0]"
+                                :searchable="search"
+                                :ui-menu="uiMenu"
+                                placeholder="ex. Montreuil, Toulon, etc."
+                                loadingIcon="i-flowbite-chevron-down-outline"
+                                trailingIcon="i-flowbite-chevron-down-outline"
+                                option-attribute="name"
+                                by="name"
+                                searchablePlaceholder="Recherche..."
+                                clearSearchOnClose
+                                trailing
+                            >
+                                <template #option="{ option: city }">
+                                    <span class="">{{ city.name }}</span>
+                                    <span class="truncate text-gray-400">{{
+                                        city.departement
+                                    }}</span>
+                                </template>
+                                <template #empty>ex. Montreuil, Toulon, etc.</template>
+                                <template #option-empty="{ query }">
+                                    Pas de résultats pour <q>{{ query }}</q>
+                                </template>
+                            </USelectMenu>
+                        </UFormGroup>
+                    </div>
+                    <UFormGroup
+                        name="description"
+                        label="Description"
+                        description="Mettez votre article en valeur avec le plus de détails possibles"
+                        class="w-full"
+                    >
+                        <UTextarea
+                            v-model="state.description"
+                            placeholder="ex : C'est un ficus de 20cm de hauteur"
+                            class="w-full"
+                            :rows="4"
+                            :autoresize="false"
+                        />
+                    </UFormGroup>
+                </div>
+            </div>
         </div>
 
-        <UFormGroup name="username" label="Nom d'utilisateur" class="w-full">
-            <UInput v-model="state.title" placeholder="Nom d'utilisateur" />
-        </UFormGroup>
-        <UFormGroup name="city" label="Ville" class="w-full">
-            <USelectMenu
-                v-model="selectedCities"
-                :searchable="search"
-                :ui-menu="uiMenu"
-                placeholder="ex. Montreuil, Toulon, etc."
-                loadingIcon="i-flowbite-chevron-down-outline"
-                trailingIcon="i-flowbite-chevron-down-outline"
-                option-attribute="name"
-                by="name"
-                searchablePlaceholder="Recherche..."
-                clearSearchOnClose
-                multiple
-                trailing
-            >
-                <template #option="{ option: city }">
-                    <span class="">{{ city.name }}</span>
-                    <span class="truncate text-gray-400">{{ city.departement }}</span>
-                </template>
-                <template #empty>ex. Montreuil, Toulon, etc.</template>
-                <template #option-empty="{ query }">
-                    Pas de résultats pour <q>{{ query }}</q>
-                </template>
-            </USelectMenu>
-        </UFormGroup>
-
-        <UFormGroup
-            name="description"
-            label="Description"
-            description="Mettez votre article en valeur avec le plus de détails possibles"
-            class="w-full"
-        >
-            <UTextarea
-                v-model="state.description"
-                placeholder="ex : C'est un ficus de 20cm de hauteur"
-                class="w-full"
-                :autoresize="false"
-            />
-        </UFormGroup>
-
-        <div class="flex justify-between">
+        <div class="flex justify-end">
             <div class="mt-auto">
                 <UButton
                     type="submit"
                     color="primary"
-                    class="flex justify-center w-48"
-                    label="Enregistrer"
+                    class="flex justify-center"
+                    label="Mettre à jour"
                 />
             </div>
         </div>
@@ -67,24 +75,13 @@
 </template>
 
 <script setup lang="ts">
-import { object, string, number } from 'yup'
+import { object, string } from 'yup'
 import { getSession } from '~/services/users.supabase'
+
+const props = defineProps(['userData'])
 
 const userId = ref()
 const selectedCities: any = ref<string[]>([])
-
-const items = [
-    {
-        key: 'profil',
-        label: 'Informations du profil',
-        icon: 'i-heroicons-information-circle',
-    },
-    {
-        key: 'account',
-        label: 'Paramètres du compte',
-        icon: 'i-heroicons-arrow-down-tray',
-    },
-]
 
 const uiMenu = ref({
     width: 'min-w-60',
@@ -95,30 +92,38 @@ const uiMenu = ref({
 })
 
 const state = reactive({
-    user_id: userId.value,
-    title: '',
+    id: '',
+    username: '',
     description: '',
-    category: [],
-    price: 0,
-    images: [],
-    online: true,
+    city: {},
+    avatar: '',
 })
 
 const schema = object({
-    title: string()
-        .min(8, 'Le titre doit contenir 6 caracteres minimum')
-        .required('Le titre est requis'),
-    description: string()
-        .min(8, 'La description doit contenir au moins 8 caracteres')
-        .required('La description est requise'),
-    category: object().required('La categorie est requise'),
-    price: number(),
+    username: string().min(8, 'Le titre doit contenir 6 caracteres minimum'),
+    description: string().min(8, 'La description doit contenir au moins 8 caracteres'),
+    city: object(),
+    avatar: string(),
 })
 
 onMounted(async () => {
     const session = await getSession()
     userId.value = session?.user?.id
 })
+
+watch(
+    () => props.userData,
+    (newVal) => {
+        if (newVal && newVal[0]) {
+            state.username = newVal[0].username
+            state.description = newVal[0].description
+            state.city = newVal[0].city
+            state.avatar = newVal[0].avatar
+            selectedCities.value.push(newVal[0].city)
+        }
+    },
+    { immediate: true }
+)
 
 const router = useRouter()
 

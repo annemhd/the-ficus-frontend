@@ -2,30 +2,37 @@
     <UForm
         :schema="schema"
         :state="state"
-        class="flex flex-col justify-center gap-4 p-4 rounded-3xl w-1/2"
+        class="flex flex-col justify-center items-center gap-4 rounded-3xl w-full"
         @submit="onSubmit"
     >
-        <UFormGroup name="Email" label="Email">
-            <UInput v-model="state.title" placeholder="Email" class="w-full" />
+        <UFormGroup
+            name="Email"
+            label="Email"
+            description="Un mail de confirmation vous sera envoyer vers le nouvel email"
+            class="w-full"
+        >
+            <UInput v-model="state.title" placeholder="Email" />
         </UFormGroup>
-        <UFormGroup name="Mot de passe" label="Mot de passe">
-            <UInput v-model="state.title" placeholder="Mot de passe" class="w-full" />
-        </UFormGroup>
-        <UFormGroup name="Confirmation du mot de passe" label="Confirmation du mot de passe">
-            <UInput
-                v-model="state.title"
-                placeholder="Confirmation du mot de passe"
+        <div class="flex w-full gap-4">
+            <UFormGroup name="Mot de passe" label="Mot de passe" class="w-full">
+                <UInput v-model="state.title" placeholder="Mot de passe" />
+            </UFormGroup>
+            <UFormGroup
+                name="Confirmation du mot de passe"
+                label="Confirmation du mot de passe"
                 class="w-full"
-            />
-        </UFormGroup>
+            >
+                <UInput v-model="state.title" placeholder="Confirmation du mot de passe" />
+            </UFormGroup>
+        </div>
 
-        <div class="flex justify-between">
+        <div class="flex justify-end w-full">
             <div class="mt-auto">
                 <UButton
                     type="submit"
                     color="primary"
-                    class="flex justify-center w-48"
-                    label="Enregistrer"
+                    class="flex justify-center"
+                    label="Mettre à jour"
                 />
             </div>
         </div>
@@ -34,6 +41,8 @@
 <script setup lang="ts">
 import { object, string, number } from 'yup'
 import { getSession } from '~/services/users.supabase'
+
+const props = defineProps(['user-data'])
 
 const userId = ref()
 const selectedCities: any = ref<string[]>([])
