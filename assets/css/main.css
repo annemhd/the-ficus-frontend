@@ -1,2 +1,10 @@
-@import "tailwindcss";
-@import "@nuxt/ui";
+/* @import 'tailwindcss';
+@import '@nuxt/ui'; */
+
+html {
+    height: 100vh;
+}
+
+#__nuxt {
+    height: 100vh;
+}

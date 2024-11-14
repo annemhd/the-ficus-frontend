@@ -40,6 +40,7 @@
                         color="gray"
                         variant="ghost"
                         icon="i-tabler-user-filled"
+                        size="sm"
                         >Profil</UButton
                     >
                     <UButton
@@ -48,11 +49,17 @@
                         variant="ghost"
                         icon="i-tabler-mail-filled"
                         label="Messages"
+                        size="sm"
                     />
                 </div>
                 <UDivider />
                 <div class="flex flex-col gap-1 p-2">
-                    <UButton color="red" variant="ghost" icon="i-tabler-logout-2" @click="logout"
+                    <UButton
+                        color="red"
+                        variant="ghost"
+                        size="sm"
+                        icon="i-tabler-logout-2"
+                        @click="logout"
                         >Déconnexion</UButton
                     >
                 </div>

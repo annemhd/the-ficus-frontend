@@ -7,7 +7,8 @@
     >
         <div class="flex flex-col w-full">
             <div class="flex w-full gap-6">
-                <div class="flex flex-col">
+                <div class="flex flex-col justify-between">
+                    <p class="text-sm font-medium">Photo de profil</p>
                     <ImgUpload for="users" />
                 </div>
 
