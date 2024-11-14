@@ -75,10 +75,11 @@
 </template>
 
 <script setup lang="ts">
-import { object, string } from 'yup'
-import { getSession } from '~/services/users.supabase'
+import { array, object, string } from 'yup'
+import { getSession, updateUser } from '~/services/users.supabase'
 
 const props = defineProps(['userData'])
+const router = useRouter()
 
 const userId = ref()
 const selectedCities: any = ref<string[]>([])
@@ -102,7 +103,7 @@ const state = reactive({
 const schema = object({
     username: string().min(8, 'Le titre doit contenir 6 caracteres minimum'),
     description: string().min(8, 'La description doit contenir au moins 8 caracteres'),
-    city: object(),
+    city: array(),
     avatar: string(),
 })
 
@@ -110,22 +111,6 @@ onMounted(async () => {
     const session = await getSession()
     userId.value = session?.user?.id
 })
-
-watch(
-    () => props.userData,
-    (newVal) => {
-        if (newVal && newVal[0]) {
-            state.username = newVal[0].username
-            state.description = newVal[0].description
-            state.city = newVal[0].city
-            state.avatar = newVal[0].avatar
-            selectedCities.value.push(newVal[0].city)
-        }
-    },
-    { immediate: true }
-)
-
-const router = useRouter()
 
 async function search(query: string) {
     const cities: any = await $fetch(
@@ -145,10 +130,24 @@ async function search(query: string) {
 async function onSubmit() {
     try {
         await schema.validate(state)
-        ///
-        router.push({ path: '/account/profile' })
+        await updateUser(userId.value, state.username, selectedCities.value[0], state.description)
+        // router.push({ path: '/account/profile' })
     } catch (error) {
         console.log(error)
     }
 }
+
+watch(
+    () => props.userData,
+    (newVal) => {
+        if (newVal && newVal[0]) {
+            state.username = newVal[0].username
+            state.description = newVal[0].description
+            state.city = newVal[0].city
+            state.avatar = newVal[0].avatar
+            selectedCities.value.push(newVal[0].city)
+        }
+    },
+    { immediate: true }
+)
 </script>

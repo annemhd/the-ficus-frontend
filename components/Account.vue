@@ -53,6 +53,15 @@
                         size="sm"
                         @click="open = false"
                     />
+                    <UButton
+                        to="/account/edit"
+                        color="gray"
+                        variant="ghost"
+                        icon="i-tabler-user-filled"
+                        size="sm"
+                        @click="open = false"
+                        >Informations du compte</UButton
+                    >
                 </div>
                 <UDivider />
                 <div class="flex flex-col gap-1 p-2">
