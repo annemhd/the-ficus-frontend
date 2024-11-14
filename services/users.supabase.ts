@@ -78,7 +78,7 @@ export const getUserData = async (userId: string) => {
     }
 }
 
-export const updateUser = async (id, username, city, description) => {
+export const updateUser = async (id: string, username: string, city: {}, description: string) => {
     const { data, error } = await supabase
   .from('users')
   .update({ username: username, city: city, description: description  })
