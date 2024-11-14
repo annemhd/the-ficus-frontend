@@ -1,9 +1,9 @@
 <template>
-    <section class="mt-8 flex flex-col items-center">
+    <section class="mt-8 flex flex-col items-center pb-16 h-full">
         <UForm
             :schema="schema"
             :state="state"
-            class="flex flex-col justify-center gap-4 p-4 rounded-3xl w-1/2"
+            class="flex flex-col justify-center gap-4 rounded-3xl w-1/2"
             @submit="onSubmit"
             ><h1 class="text-2xl">Ajouter un article</h1>
             <UFormGroup

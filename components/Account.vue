@@ -24,7 +24,7 @@
             size="xs"
             class="rounded-xl p-3"
         />
-        <UPopover>
+        <UPopover v-model:open="open">
             <UButton color="black" variant="ghost" size="xs" class="rounded-xl p-0"
                 ><UAvatar
                     size="md"
@@ -41,6 +41,7 @@
                         variant="ghost"
                         icon="i-tabler-user-filled"
                         size="sm"
+                        @click="open = false"
                         >Profil</UButton
                     >
                     <UButton
@@ -50,6 +51,7 @@
                         icon="i-tabler-mail-filled"
                         label="Messages"
                         size="sm"
+                        @click="open = false"
                     />
                 </div>
                 <UDivider />
@@ -87,6 +89,7 @@ import { signOut } from '~/services/users.supabase'
 import { getSession } from '~/services/users.supabase'
 
 const userInfo = ref()
+const open = ref(false)
 const router = useRouter()
 
 onMounted(async () => {
