@@ -52,9 +52,8 @@
                         <UTextarea
                             v-model="state.description"
                             placeholder="ex : C'est un ficus de 20cm de hauteur"
-                            class="w-full"
-                            :rows="4"
-                            :autoresize="false"
+                            class="w-full h-full"
+                            :rows="6"
                         />
                     </UFormGroup>
                 </div>

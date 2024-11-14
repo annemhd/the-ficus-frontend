@@ -60,6 +60,7 @@ export const getUserData = async (userId: string) => {
         .select(`
             id,
             username,
+            email,
             avatar,
             description,
             city
