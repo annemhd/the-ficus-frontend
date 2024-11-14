@@ -78,11 +78,14 @@ export const getUserData = async (userId: string) => {
     }
 }
 
-export const updateUser = async (id: string, username: string, city: {}, description: string) => {
+export const updateUser = async (id: string, username: string, city: {}, description: string, avatar: string) => {
     const { data, error } = await supabase
         .from('users')
-        .update({ username: username, city: city, description: description  })
+        .update({ username: username, city: city, description: description, avatar: avatar  })
         .eq('id', id)
+    
+    await supabase.rpc('update_avatar')
+   
 
     return data
 }

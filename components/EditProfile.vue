@@ -9,7 +9,7 @@
             <div class="flex w-full gap-6">
                 <div class="flex flex-col justify-between">
                     <p class="text-sm font-medium">Photo de profil</p>
-                    <ImgUpload for="users" />
+                    <ImgUpload for="users" @images="getImagesUrls" />
                 </div>
 
                 <div class="w-full flex flex-col gap-4">
@@ -103,7 +103,7 @@ const state = reactive({
 const schema = object({
     username: string().min(8, 'Le titre doit contenir 6 caracteres minimum'),
     description: string().min(8, 'La description doit contenir au moins 8 caracteres'),
-    city: array(),
+    city: object(),
     avatar: string(),
 })
 
@@ -111,6 +111,11 @@ onMounted(async () => {
     const session = await getSession()
     userId.value = session?.user?.id
 })
+
+const getImagesUrls = (images: any) => {
+    state.avatar = images[0]
+    console.log('urllll  ', state.avatar)
+}
 
 async function search(query: string) {
     const cities: any = await $fetch(
@@ -130,7 +135,13 @@ async function search(query: string) {
 async function onSubmit() {
     try {
         await schema.validate(state)
-        await updateUser(userId.value, state.username, selectedCities.value[0], state.description)
+        await updateUser(
+            userId.value,
+            state.username,
+            selectedCities.value[0],
+            state.description,
+            state.avatar
+        )
         // router.push({ path: '/account/profile' })
     } catch (error) {
         console.log(error)
@@ -144,7 +155,7 @@ watch(
             state.username = newVal[0].username
             state.description = newVal[0].description
             state.city = newVal[0].city
-            state.avatar = newVal[0].avatar
+            // state.avatar = newVal[0].avatar[0]
             selectedCities.value.push(newVal[0].city)
         }
     },

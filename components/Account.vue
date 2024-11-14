@@ -1,5 +1,5 @@
 <template>
-    <section v-if="userInfo" class="flex items-center gap-2">
+    <section v-if="userSession" class="flex items-center gap-2">
         <UButton
             to="/articles/add"
             color="primary"
@@ -28,10 +28,14 @@
             <UButton color="black" variant="ghost" size="xs" class="rounded-xl p-0"
                 ><UAvatar
                     size="md"
-                    :src="userInfo.avatar"
-                    :alt="userInfo.username.toUpperCase()"
-                    :ui="{ rounded: 'rounded-xl' }"
-                    class="bg-gray-100"
+                    :src="imgResize.src"
+                    :alt="userData?.[0]?.username"
+                    :ui="{
+                        rounded: 'rounded-xl',
+                        size: { md: 'h-full w-full text-base' },
+                    }"
+                    class="bg-gray-100 overflow-hidden h-10 w-10"
+                    imgClass="object-cover"
             /></UButton>
             <template #panel>
                 <div class="w-60 flex flex-col gap-1 p-2">
@@ -96,21 +100,38 @@
 
 <script setup lang="ts">
 import { signOut } from '~/services/users.supabase'
-import { getSession } from '~/services/users.supabase'
+import { getSession, getUserData } from '~/services/users.supabase'
 
-const userInfo = ref()
+const userSession = ref()
+const userData = ref()
+const userId = ref()
 const open = ref(false)
+
+const img = useImage()
 const router = useRouter()
 
+const imgResize = computed(() => {
+    return img.getSizes(userData.value?.[0]?.avatar, {
+        sizes: 'xs:100vw sm:100vw md:100vw lg:100vw xl:100vw',
+        modifiers: {
+            format: 'webp',
+            quality: 70,
+            height: 100,
+        },
+    })
+})
+
 onMounted(async () => {
-    const session = await getSession()
-    userInfo.value = session?.user?.user_metadata
+    userSession.value = await getSession()
+    userId.value = userSession.value?.user.id
+    userData.value = await getUserData(userId.value)
+    console.log('MMMM ', imgResize.value)
 })
 
 const logout = async () => {
     try {
         await signOut()
-        userInfo.value = null
+        userData.value = null
         router.push({ path: '/' })
     } catch (error) {
         console.error(error)
