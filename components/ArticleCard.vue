@@ -2,7 +2,16 @@
     <div class="flex flex-col gap-2">
         <div class="flex gap-2 justify-between items-center">
             <div class="flex gap-2 items-center">
-                <UAvatar size="sm" :src="props.article.avatar" alt="Avatar" />
+                <UAvatar
+                    size="sm"
+                    :src="props.article.avatar"
+                    :alt="props.article.username"
+                    :ui="{
+                        size: { md: 'h-full w-full text-base' },
+                    }"
+                    class="bg-gray-100 overflow-hidden h-8 w-8"
+                    imgClass="object-cover"
+                />
                 <p class="text-sm">{{ props.article.username }}</p>
             </div>
 

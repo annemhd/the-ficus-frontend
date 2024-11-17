@@ -114,7 +114,6 @@ const imgResize = computed(() => {
     return img.getSizes(userData.value?.[0]?.avatar, {
         sizes: 'xs:100vw sm:100vw md:100vw lg:100vw xl:100vw',
         modifiers: {
-            format: 'webp',
             quality: 70,
             height: 100,
         },
@@ -125,7 +124,6 @@ onMounted(async () => {
     userSession.value = await getSession()
     userId.value = userSession.value?.user.id
     userData.value = await getUserData(userId.value)
-    console.log('MMMM ', imgResize.value)
 })
 
 const logout = async () => {

@@ -66,7 +66,7 @@
 import { uploadFile, deleteFile, getUrl } from '~/services/images.supabase'
 
 const emit = defineEmits(['images'])
-const props = defineProps(['for'])
+const props = defineProps(['for', 'avatar'])
 const file: any = useTemplateRef('file')
 const src = ref()
 const imgs: any = ref([])

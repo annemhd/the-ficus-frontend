@@ -9,7 +9,7 @@
             <div class="flex w-full gap-6">
                 <div class="flex flex-col justify-between">
                     <p class="text-sm font-medium">Photo de profil</p>
-                    <ImgUpload for="users" @images="getImagesUrls" />
+                    <AvatarUpload @image="getImagesUrls" :avatar="props.userData?.[0].avatar" />
                 </div>
 
                 <div class="w-full flex flex-col gap-4">
@@ -113,8 +113,7 @@ onMounted(async () => {
 })
 
 const getImagesUrls = (images: any) => {
-    state.avatar = images[0]
-    console.log('urllll  ', state.avatar)
+    state.avatar = images
 }
 
 async function search(query: string) {
@@ -155,7 +154,7 @@ watch(
             state.username = newVal[0].username
             state.description = newVal[0].description
             state.city = newVal[0].city
-            // state.avatar = newVal[0].avatar[0]
+            state.avatar = newVal[0].avatar[0]
             selectedCities.value.push(newVal[0].city)
         }
     },
