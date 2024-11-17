@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col gap-2">
-        <div class="flex gap-2 justify-between items-center">
+        <div v-if="route.name === 'market'" class="flex gap-2 justify-between items-center">
             <div class="flex gap-2 items-center">
                 <UAvatar
                     size="sm"
@@ -17,15 +17,20 @@
 
             <UIcon name="i-tabler-heart-filled" class="text-gray-400" />
         </div>
-        <div v-if="props.article.images.length > 0" class="rounded-2xl overflow-hidden">
+        <NuxtLink
+            :to="link"
+            v-if="props.article.images.length > 0"
+            class="rounded-2xl overflow-hidden"
+        >
             <img :src="props.article.images[0]" class="object-cover h-48 w-96" />
-        </div>
-        <div
+        </NuxtLink>
+        <NuxtLink
             v-else
+            :to="link"
             class="rounded-2xl overflow-hidden h-48 flex justify-center items-center bg-gray-200"
         >
             <UIcon name="i-heroicons-photo" class="text-gray-400 h-24 w-24" />
-        </div>
+        </NuxtLink>
 
         <div class="flex justify-between text-sm px-2">
             <p>
@@ -37,4 +42,6 @@
 </template>
 <script setup lang="ts">
 const props = defineProps(['article'])
+const route = useRoute()
+const link = computed(() => `/articles/${props?.article?.id}`)
 </script>

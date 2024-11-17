@@ -4,6 +4,7 @@ export const getAllArticles = async (sort: string, order: boolean, categories: s
     const query = supabase
         .from('articles')
         .select(`
+            id,
             username,
             avatar,
             title,
@@ -50,10 +51,40 @@ export const getAllArticles = async (sort: string, order: boolean, categories: s
     }
 }
 
+export const getArticleById = async (articleId: string) => {
+    const query = supabase
+        .from('articles')
+        .select(`
+            id,
+            username,
+            avatar,
+            title,
+            category,
+            price,
+            images,
+            city_name,
+            city_code,
+            online,
+            created_at
+        `).eq('id', articleId)
+
+    try {
+        const { data, error } = await query;
+
+        if (error) throw new Error(`Error fetching articles: ${error.message}`);
+        
+        return data;
+    } catch (error) {
+        console.error("Error in getAllArticles:", error);
+        return null;
+    }
+}
+
 export const getArticlesByUser = async (userId: string, sort: string, order: boolean, categories: string[],cities: object[] , price: number | null) => {
     const query = supabase
         .from('articles')
         .select(`
+            id,
             username,
             avatar,
             title,
