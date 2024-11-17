@@ -85,10 +85,10 @@ const uploadImage = async () => {
     } else if (props.for === 'articles') {
         upload = await uploadFile(file.value.files[0], 'articles')
         src.value = await getUrl(`articles/${upload?.path}`)
+        if (file.value.files[0]) imgs.value.push(src.value.data.publicUrl)
+        console.log(file.value.files[0])
+        emit('images', imgs.value)
     }
-
-    imgs.value.push(src.value.data.publicUrl)
-    emit('images', imgs.value)
 }
 
 const deleteImage = async (path: any) => {
